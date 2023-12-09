@@ -18,14 +18,14 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _dashSpeed = 20f;
     [SerializeField] private float _dashAcceleration = 20f;
     [SerializeField] private float _dashDuration = .25f;
-    [SerializeField] private float _dashCooldown = .5f;
+    [SerializeField] private float _dashCooldown = .25f;
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 10f;
     [Range(0,1)] [SerializeField] private float _airControl = 0.2f;
     [SerializeField] private float _jumpCooldown = 0.1f;
     [Header("Sensitivity")]
-    [SerializeField] private float _mouseSensitivityX = 5f;
-    [SerializeField] private float _mouseSensitivityY = 5f;
+    [SerializeField] private float _mouseSensitivityX = 1f;
+    [SerializeField] private float _mouseSensitivityY = 1f;
     [Header("Camera")]
     [SerializeField] private float _forwardCameraTilt = 1f;
     [SerializeField] private float _sideCameraTilt = 3f;
@@ -53,22 +53,8 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float mouseX = Input.GetAxis("Mouse X");
-        float mouseY = Input.GetAxis("Mouse Y");
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
-
-        // Check if the player is grounded
-        _grounded = Physics.Raycast(transform.position, Vector3.down, 1.25f);
-
-        // Rotate the player and the camera
-        transform.Rotate(Vector3.up * mouseX * _mouseSensitivityX);
-        _cameraVerticalRotation -= mouseY * _mouseSensitivityY;
-        _cameraVerticalRotation = Mathf.Clamp(_cameraVerticalRotation, -90, 90);
-        float tiltAmountX = Vector3.Dot(_rb.velocity, transform.right) / _maxSpeed;
-        float tiltAmountY = Vector3.Dot(_rb.velocity, transform.forward) / _maxSpeed;
-        _camera.transform.localRotation = Quaternion.Euler(_cameraVerticalRotation + tiltAmountY * _forwardCameraTilt, 0f, -tiltAmountX * _sideCameraTilt);
-        _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _dashing ? 70 : 60, 10 * Time.deltaTime);
 
         // Move the player
         Vector3 desiredVelocity;
@@ -98,6 +84,23 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        float mouseX = Input.GetAxisRaw("Mouse X");
+        float mouseY = Input.GetAxisRaw("Mouse Y");
+
+        // Check if the player is grounded
+        _grounded = Physics.Raycast(transform.position, Vector3.down, 1.25f);
+
+        // Rotate the player and the camera
+        transform.Rotate(Vector3.up * mouseX * _mouseSensitivityX);
+        _cameraVerticalRotation -= mouseY * _mouseSensitivityY;
+        _cameraVerticalRotation = Mathf.Clamp(_cameraVerticalRotation, -90, 90);
+        float sideTiltAmount = Vector3.Dot(_rb.velocity, transform.right) / _maxSpeed;
+        Debug.Log(sideTiltAmount);
+        float forwardTiltAmount = Vector3.Dot(_rb.velocity, transform.forward) / _maxSpeed;
+        _camera.transform.localRotation = Quaternion.Euler(_cameraVerticalRotation + forwardTiltAmount * _forwardCameraTilt, 0f, -sideTiltAmount * _sideCameraTilt);
+        _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _dashing ? 70 : 60, 10 * Time.deltaTime);
+
+        // Check for jump and dash
         _dashTimer -= Time.deltaTime;
         _jumpTimer -= Time.deltaTime;
         if (Input.GetKeyDown(KeyCode.Space) && _jumpTimer <= 0 && _grounded)
@@ -123,11 +126,5 @@ public class EthanPlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(_dashDuration);
         _dashing = false;
         _dashTimer = _dashCooldown;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, Vector3.down * 1.25f);
     }
 }
