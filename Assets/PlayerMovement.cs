@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     CharacterController controller;
+    public Transform Camera;
 
     [Header("Speed Attributes")]
     public float currentSpeed;
@@ -33,11 +34,23 @@ public class PlayerMovement : MonoBehaviour
 
     public float slowDownAcceleration;
 
+    [Header("Camera Attributes")]
+    public float yCamSpeed;
+     float defaultFOV;
+     float zoomFOV;
+     float backZoomFOV;
 
     
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        
+        //Setting stuff up for the camera FOV lerp
+        Camera cam = Camera.GetComponent<Camera>();
+        defaultFOV = cam.fieldOfView;
+        zoomFOV = defaultFOV - 4;
+        backZoomFOV = defaultFOV + 4;
+        
     }
 
     
@@ -117,8 +130,8 @@ public class PlayerMovement : MonoBehaviour
                 controller.Move(driftingMove * currentSpeed * Time.deltaTime);
             }
         }
-        
 
+        SetCameraFOV(y);
     }
 
     void SetSpeedUpdate()
@@ -148,6 +161,24 @@ public class PlayerMovement : MonoBehaviour
         }
         
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, accelerationSpeed * Time.deltaTime);
+    }
+
+    void SetCameraFOV(float y)
+    {
+        //Lerps camera from side to side smoothly as player moves
+        Camera cam = Camera.GetComponent<Camera>();
+        if (y > 0.1f)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, zoomFOV, yCamSpeed * Time.deltaTime);
+        }
+        else if (y < -0.1f)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, backZoomFOV, yCamSpeed * Time.deltaTime);
+        }
+        else
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, defaultFOV, yCamSpeed * Time.deltaTime);
+        }
     }
 
     IEnumerator Dash(float time)

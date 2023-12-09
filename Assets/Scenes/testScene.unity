@@ -554,6 +554,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b539d51c28575804883d8ba52e49b367, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Camera: {fileID: 712071824}
   currentSpeed: 10
   maxSpeed: 7
   speedAcceleration: 5
@@ -562,6 +563,7 @@ MonoBehaviour:
   maxDashSpeed: 50
   DashAcceleration: 15
   slowDownAcceleration: 3
+  yCamSpeed: 4
 --- !u!143 &1086131615
 CharacterController:
   m_ObjectHideFlags: 0
