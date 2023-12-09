@@ -122,7 +122,8 @@ public class EthanPlayerMovement : MonoBehaviour
     private IEnumerator Dash()
     {
         _dashing = true;
-        _dashDirection = (transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal")).normalized;
+        Vector3 input = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
+        _dashDirection = input.magnitude > .1f ? input.normalized : transform.forward;
         yield return new WaitForSeconds(_dashDuration);
         _dashing = false;
         _dashTimer = _dashCooldown;
