@@ -228,6 +228,7 @@ GameObject:
   - component: {fileID: 508487914}
   - component: {fileID: 508487913}
   - component: {fileID: 508487912}
+  - component: {fileID: 508487915}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -242,7 +243,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 508487910}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -332,6 +333,24 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &508487915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508487910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693b4bd8c2455144097307f2f6b4076e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerBody: {fileID: 1757013583}
+  _mouseSensitivityX: 1
+  _mouseSensitivityY: 1
+  _forwardCameraTilt: 3
+  _sideCameraTilt: 3
+  _dashFOV: 60
 --- !u!1 &712071821
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,8 +951,8 @@ GameObject:
   - component: {fileID: 1757013582}
   - component: {fileID: 1757013581}
   - component: {fileID: 1757013580}
-  - component: {fileID: 1757013579}
   - component: {fileID: 1757013578}
+  - component: {fileID: 1757013579}
   m_Layer: 0
   m_Name: Other Player lol
   m_TagString: Untagged
@@ -953,35 +972,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a77e224d3380c94cb3c80228a0ac6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxSpeed: 10
-  _acceleration: 10
-  _dashSpeed: 20
-  _dashAcceleration: 15
+  MaxSpeed: 8
+  _acceleration: 8
+  _dashSpeed: 14
+  _dashAcceleration: 4
   _dashDuration: 0.25
   _dashCooldown: 0.25
-  _jumpForce: 10
+  _jumpVelocity: 10
   _airControl: 0.2
   _jumpCooldown: 0.1
-  _mouseSensitivityX: 1
-  _mouseSensitivityY: 1
-  _forwardCameraTilt: 2
-  _sideCameraTilt: 2
---- !u!54 &1757013579
-Rigidbody:
+  Velocity: {x: 0, y: 0, z: 0}
+  Grounded: 0
+  Dashing: 0
+--- !u!143 &1757013579
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757013577}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &1757013580
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1053,7 +1073,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757013577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 5.14, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 508487911}
