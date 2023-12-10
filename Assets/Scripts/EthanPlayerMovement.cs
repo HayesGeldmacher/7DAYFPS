@@ -2,12 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.Mathematics;
-using UnityEngine.UIElements;
-
 [RequireComponent(typeof(CharacterController))]
 public class EthanPlayerMovement : MonoBehaviour
 {
@@ -21,12 +15,14 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _dashCooldown = .25f;
     [Header("Jump")]
     [SerializeField] private float _jumpVelocity = 10f;
+    [SerializeField] private float _boostVelocity = 10f;
+    [SerializeField] private float _boostAcceleration = 10f;
     [Range(0,1)] [SerializeField] private float _airControl = 0.2f;
     [SerializeField] private float _jumpCooldown = 0.1f;
 
-    [HideInInspector] public Vector3 Velocity = Vector3.zero;
-    [HideInInspector] public bool Grounded = false;
-    [HideInInspector] public bool Dashing = false;
+    public Vector3 Velocity = Vector3.zero;
+    public bool Grounded = false;
+     public bool Dashing = false;
     private Vector3 _dashDirection = Vector3.zero;
     private float _dashTimer = 0f;
     private float _jumpTimer = 0f;
@@ -50,14 +46,17 @@ public class EthanPlayerMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         // Check if the player is grounded
-        Grounded = Physics.Raycast(transform.position, Vector3.down, 1.25f);
+        Grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f);
 
         // Check for jump and dash
         _dashTimer -= Time.deltaTime;
         _jumpTimer -= Time.deltaTime;
-        if (Input.GetKeyDown(KeyCode.Space) && _jumpTimer <= 0 && Grounded)
+        if (Input.GetKey(KeyCode.Space))
         {
-            Jump();
+            if (Input.GetKeyDown(KeyCode.Space) && _jumpTimer <= 0 && Grounded)
+                Jump();
+            else
+                Boost();
         }
         if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer <= 0)
         {
@@ -81,18 +80,23 @@ public class EthanPlayerMovement : MonoBehaviour
         Velocity += (desiredVelocity - actualVelocity) * availableAcceleration * Time.deltaTime;
 
         // Gravity
-        if (!Grounded)
-            Velocity += Vector3.up * Physics.gravity.y * 2.5f * Time.deltaTime;
-        if (Dashing)
-            Velocity = Vector3.ProjectOnPlane(Velocity, Vector3.up);
+        Velocity += Vector3.up * Physics.gravity.y * 2.5f * Time.deltaTime;
+        if (Dashing || (Grounded && Velocity.y < 0))
+            Velocity.y = 0;
 
         _controller.Move(Velocity * Time.deltaTime);
     }
 
     private void Jump()
     {
-        Velocity.y = _jumpVelocity;
+        Velocity.y += _jumpVelocity;
         _jumpTimer = _jumpCooldown;
+    }
+
+    private void Boost()
+    {
+        Velocity.y += _boostAcceleration * Time.deltaTime;
+        Velocity.y = Mathf.Clamp(Velocity.y, float.NegativeInfinity, _boostVelocity);
     }
 
     private IEnumerator Dash()

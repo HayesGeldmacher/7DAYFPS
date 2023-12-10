@@ -971,13 +971,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a77e224d3380c94cb3c80228a0ac6b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 8
-  _acceleration: 8
-  _dashSpeed: 14
-  _dashAcceleration: 14
-  _dashDuration: 0.25
+  MaxSpeed: 10
+  _acceleration: 10
+  _dashSpeed: 15
+  _dashAcceleration: 15
+  _dashDuration: 0.33333334
   _dashCooldown: 0.25
   _jumpVelocity: 10
+  _boostVelocity: 10
+  _boostAcceleration: 50
   _airControl: 0.2
   _jumpCooldown: 0.1
   Velocity: {x: 0, y: 0, z: 0}
