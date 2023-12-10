@@ -15,6 +15,17 @@ public class CameraController : MonoBehaviour
     [Header("FOV")]
     [SerializeField] private float _dashFOV = 60f;
 
+    [Header("Reticle")]
+     private float currentReticleX;
+     private float currentReticleY;
+    [SerializeField] private float targetReticleX;
+    [SerializeField] private float targetReticleY;
+    [SerializeField] private float reticleAcceleration;
+    [SerializeField] private float reticleDecceleration;
+    [SerializeField] private Transform Reticle;
+
+
+
     private Rigidbody _playerRb;
     private EthanPlayerMovement _playerMovement;
     private Camera _camera;
@@ -54,5 +65,46 @@ public class CameraController : MonoBehaviour
         
         // Set the camera's FOV based on the player's dash state
         _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _playerMovement.Dashing ? 70 : 60, 10 * Time.deltaTime);
+
+        LookUpdate();
+    }
+
+    void LookUpdate()
+    {
+
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+
+        if (mouseX > 0.1f)
+        {
+            currentReticleX = Mathf.Lerp(currentReticleX, targetReticleX, reticleAcceleration * Time.deltaTime);
+        }
+        else if (mouseX < -0.1f)
+        {
+            currentReticleX = Mathf.Lerp(currentReticleX, -targetReticleX, reticleAcceleration * Time.deltaTime);
+        }
+        else
+        {
+            currentReticleX = Mathf.Lerp(currentReticleX, 0, reticleDecceleration * Time.deltaTime);
+        }
+
+        if (mouseY > 0.1f)
+        {
+            currentReticleY = Mathf.Lerp(currentReticleY, targetReticleY, reticleAcceleration * Time.deltaTime);
+        }
+        else if (mouseY < -0.1f)
+        {
+            currentReticleY = Mathf.Lerp(currentReticleY, -targetReticleY, reticleAcceleration * Time.deltaTime);
+        }
+        else
+        {
+            currentReticleY = Mathf.Lerp(currentReticleY, 0, reticleDecceleration * Time.deltaTime);
+        }
+
+        Vector3 cursorPos = new Vector3(currentReticleX, currentReticleY, Reticle.localPosition.z);
+        Reticle.localPosition = cursorPos;  
+        
+
     }
 }
