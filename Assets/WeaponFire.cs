@@ -20,7 +20,7 @@ public class WeaponFire : MonoBehaviour
             Fire();
         }
 
-        //GunRotationUpdate();
+        GunRotationUpdate();
     }
 
     void GunRotationUpdate()
