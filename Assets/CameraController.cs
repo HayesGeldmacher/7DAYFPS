@@ -23,7 +23,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float reticleAcceleration;
     [SerializeField] private float reticleDecceleration;
     [SerializeField] private Transform Reticle;
+    [SerializeField] private Transform gun;
 
+    [Header("Gun")]
+    private float currentGunX;
+    private float currentGunY;
+    [SerializeField] private float targetGunX;
+    [SerializeField] private float targetGunY;
+    [SerializeField] private float gunAcceleration;
+    [SerializeField] private float gunDecceleration;  
 
 
     private Rigidbody _playerRb;
@@ -66,10 +74,10 @@ public class CameraController : MonoBehaviour
         // Set the camera's FOV based on the player's dash state
         _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _playerMovement.Dashing ? 70 : 60, 10 * Time.deltaTime);
 
-        LookUpdate();
+        ReticleSwayUpdate();
     }
 
-    void LookUpdate()
+    void ReticleSwayUpdate()
     {
 
         float mouseX = Input.GetAxis("Mouse X");
@@ -103,8 +111,47 @@ public class CameraController : MonoBehaviour
         }
 
         Vector3 cursorPos = new Vector3(currentReticleX, currentReticleY, Reticle.localPosition.z);
-        Reticle.localPosition = cursorPos;  
-        
+        Reticle.localPosition = cursorPos;
 
+        GunSwayUpdate();
+    }
+
+    void GunSwayUpdate()
+    {
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+
+        if (mouseX > 0.1f)
+        {
+           currentGunX  = Mathf.Lerp(currentGunX, targetGunX, reticleAcceleration * Time.deltaTime);
+        }
+        else if (mouseX < -0.1f)
+        {
+            currentGunX = Mathf.Lerp(currentGunX, -targetGunX, reticleAcceleration * Time.deltaTime);
+        }
+        else
+        {
+            currentGunX = Mathf.Lerp(currentGunX, 0, reticleDecceleration * Time.deltaTime);
+        }
+
+        if (mouseY > 0.1f)
+        {
+            currentGunY = Mathf.Lerp(currentGunY, targetGunY, gunAcceleration * Time.deltaTime);
+        }
+        else if (mouseY < -0.1f)
+        {
+            currentGunY = Mathf.Lerp(currentGunY, -targetGunY, gunAcceleration * Time.deltaTime);
+        }
+        else
+        {
+            currentGunY = Mathf.Lerp(currentGunY, 0, gunDecceleration * Time.deltaTime);
+        }
+
+        Vector3 cursorPos = new Vector3(currentGunX, currentGunY, gun.localPosition.z);
+        gun.localPosition = cursorPos;
     }
 }
+
+    
+
