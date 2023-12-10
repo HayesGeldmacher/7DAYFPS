@@ -83,6 +83,11 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        // Normalize mouse input (Makes it move in a circle instead of a square)
+        Vector2 mouseInput = Vector2.ClampMagnitude(new Vector2(mouseX, mouseY), 1);
+        mouseX = mouseInput.x;
+        mouseY = mouseInput.y;
+
         // Set target reticle position based on mouse input
         float targetReticleX = Mathf.Abs(mouseX) < 0.1f ? 0 : mouseX > 0 ? maxReticleX : -maxReticleX;
         float targetReticleY = Mathf.Abs(mouseY) < 0.1f ? 0 : mouseY > 0 ? maxReticleY : -maxReticleY;
@@ -104,6 +109,11 @@ public class CameraController : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
+
+        // Normalize mouse input (Makes it move in a circle instead of a square)
+        Vector2 mouseInput = Vector2.ClampMagnitude(new Vector2(mouseX, mouseY), 1);
+        mouseX = mouseInput.x;
+        mouseY = mouseInput.y;
 
         // Set target gun position based on mouse input
         float targetGunX = Mathf.Abs(mouseX) < 0.1f ? 0 : mouseX > 0 ? maxGunX : -maxGunX;
