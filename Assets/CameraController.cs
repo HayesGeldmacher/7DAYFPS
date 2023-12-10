@@ -18,8 +18,8 @@ public class CameraController : MonoBehaviour
     [Header("Reticle")]
      private float currentReticleX;
      private float currentReticleY;
-    [SerializeField] private float targetReticleX;
-    [SerializeField] private float targetReticleY;
+    [SerializeField] private float maxReticleX;
+    [SerializeField] private float maxReticleY;
     [SerializeField] private float reticleAcceleration;
     [SerializeField] private float reticleDecceleration;
     [SerializeField] private Transform Reticle;
@@ -28,8 +28,8 @@ public class CameraController : MonoBehaviour
     [Header("Gun")]
     private float currentGunX;
     private float currentGunY;
-    [SerializeField] private float targetGunX;
-    [SerializeField] private float targetGunY;
+    [SerializeField] private float maxGunX;
+    [SerializeField] private float maxGunY;
     [SerializeField] private float gunAcceleration;
     [SerializeField] private float gunDecceleration;  
 
@@ -75,45 +75,29 @@ public class CameraController : MonoBehaviour
         _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _playerMovement.Dashing ? 70 : 60, 10 * Time.deltaTime);
 
         ReticleSwayUpdate();
+        GunSwayUpdate();
     }
 
-    void ReticleSwayUpdate()
+        void ReticleSwayUpdate()
     {
-
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        // Set target reticle position based on mouse input
+        float targetReticleX = Mathf.Abs(mouseX) < 0.1f ? 0 : mouseX > 0 ? maxReticleX : -maxReticleX;
+        float targetReticleY = Mathf.Abs(mouseY) < 0.1f ? 0 : mouseY > 0 ? maxReticleY : -maxReticleY;
 
-        if (mouseX > 0.1f)
-        {
-            currentReticleX = Mathf.Lerp(currentReticleX, targetReticleX, reticleAcceleration * Time.deltaTime);
-        }
-        else if (mouseX < -0.1f)
-        {
-            currentReticleX = Mathf.Lerp(currentReticleX, -targetReticleX, reticleAcceleration * Time.deltaTime);
-        }
-        else
-        {
-            currentReticleX = Mathf.Lerp(currentReticleX, 0, reticleDecceleration * Time.deltaTime);
-        }
+        // // Set target reticle position based on player velocity
+        // targetReticleX -= Vector3.Dot(_playerMovement.Velocity, _playerBody.transform.right) / _playerMovement.MaxSpeed * maxReticleX;
+        // targetReticleY -= Vector3.Dot(_playerMovement.Velocity, _playerBody.transform.up) / _playerMovement.MaxSpeed * maxReticleY;
+        
+        // Lerp current reticle position towards target reticle position
+        currentReticleX = Mathf.Lerp(currentReticleX, targetReticleX, reticleAcceleration * Time.deltaTime);
+        currentReticleY = Mathf.Lerp(currentReticleY, targetReticleY, reticleAcceleration * Time.deltaTime);
 
-        if (mouseY > 0.1f)
-        {
-            currentReticleY = Mathf.Lerp(currentReticleY, targetReticleY, reticleAcceleration * Time.deltaTime);
-        }
-        else if (mouseY < -0.1f)
-        {
-            currentReticleY = Mathf.Lerp(currentReticleY, -targetReticleY, reticleAcceleration * Time.deltaTime);
-        }
-        else
-        {
-            currentReticleY = Mathf.Lerp(currentReticleY, 0, reticleDecceleration * Time.deltaTime);
-        }
-
+        // Set reticle position
         Vector3 cursorPos = new Vector3(currentReticleX, currentReticleY, Reticle.localPosition.z);
         Reticle.localPosition = cursorPos;
-
-        GunSwayUpdate();
     }
 
     void GunSwayUpdate()
@@ -121,33 +105,19 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
 
+        // Set target gun position based on mouse input
+        float targetGunX = Mathf.Abs(mouseX) < 0.1f ? 0 : mouseX > 0 ? maxGunX : -maxGunX;
+        float targetGunY = Mathf.Abs(mouseY) < 0.1f ? 0 : mouseY > 0 ? maxGunY : -maxGunY;
 
-        if (mouseX > 0.1f)
-        {
-           currentGunX  = Mathf.Lerp(currentGunX, targetGunX, reticleAcceleration * Time.deltaTime);
-        }
-        else if (mouseX < -0.1f)
-        {
-            currentGunX = Mathf.Lerp(currentGunX, -targetGunX, reticleAcceleration * Time.deltaTime);
-        }
-        else
-        {
-            currentGunX = Mathf.Lerp(currentGunX, 0, reticleDecceleration * Time.deltaTime);
-        }
+        // Set target gun position based on player velocity
+        targetGunX -= Vector3.Dot(_playerMovement.Velocity, _playerBody.transform.right) / _playerMovement.MaxSpeed * maxGunX;
+        targetGunY -= Vector3.Dot(_playerMovement.Velocity, _playerBody.transform.up) / _playerMovement.MaxSpeed * maxGunY;
+        
+        // Lerp current gun position towards target gun position
+        currentGunX = Mathf.Lerp(currentGunX, targetGunX, reticleAcceleration * Time.deltaTime);
+        currentGunY = Mathf.Lerp(currentGunY, targetGunY, reticleAcceleration * Time.deltaTime);
 
-        if (mouseY > 0.1f)
-        {
-            currentGunY = Mathf.Lerp(currentGunY, targetGunY, gunAcceleration * Time.deltaTime);
-        }
-        else if (mouseY < -0.1f)
-        {
-            currentGunY = Mathf.Lerp(currentGunY, -targetGunY, gunAcceleration * Time.deltaTime);
-        }
-        else
-        {
-            currentGunY = Mathf.Lerp(currentGunY, 0, gunDecceleration * Time.deltaTime);
-        }
-
+        // Set gun position
         Vector3 cursorPos = new Vector3(currentGunX, currentGunY, gun.localPosition.z);
         gun.localPosition = cursorPos;
     }
