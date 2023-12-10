@@ -73,8 +73,10 @@ public class SnakeHead : SnakeSegment
             yield return null;
         }
 
-        SetSpeed(prevSpeed);
         _attacking = false;
         _attackTimer = MeanTimeBetweenAttacks + Random.Range(-AttackTimeVariance, AttackTimeVariance);
+        
+        yield return new WaitForSeconds(1f);
+        SetSpeed(prevSpeed);
     }
 }
