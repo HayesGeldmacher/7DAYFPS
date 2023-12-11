@@ -7,7 +7,12 @@ public class WeaponFire : MonoBehaviour
     [SerializeField] private Transform _gunTarget;
     [SerializeField] private Transform _gun;
     [SerializeField] private Animator _anim;
+    [SerializeField] private float _fireNeededTime;
+    [SerializeField] private GameObject _projectile;
+    [SerializeField] private Transform _projSpawn;
+    private float _fireCoolDownTime;
     private bool _isFiring = false;
+    private bool _canFire = true;
 
     // Start is called before the first frame update
     void Start()
@@ -18,12 +23,27 @@ public class WeaponFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0)){
-            FireProjectile();
+        if (Input.GetMouseButton(0) && _canFire){
+            if (!_isFiring)
+            {
+                BeginFiring();
+            }
         }
         else
         {
-            
+            if (_isFiring)
+            {
+                StopFiring();
+            }
+        }
+
+        if (_isFiring)
+        {
+            _fireCoolDownTime += Time.deltaTime;
+            if(_fireCoolDownTime > _fireNeededTime)
+            {
+                FireProjectile();
+            }
         }
 
         GunRotationUpdate();
@@ -35,10 +55,25 @@ public class WeaponFire : MonoBehaviour
         _gun.rotation = Quaternion.LookRotation(relativeLocation, Vector3.up);
     }
 
-    void FireProjectile()
+    void BeginFiring()
     {
         Debug.Log("Fired!");
-        _isFiring=true;
-        _anim.SetTrigger("Fire");
+        _isFiring = true;
+        _anim.SetBool("isFiring", true);
+    }
+
+    void StopFiring()
+    {
+        Debug.Log("Stopped Firing");
+        _isFiring = false;
+        _anim.SetBool("isFiring", false);
+    }
+
+    void FireProjectile()
+    {
+        Debug.Log("fired Projectile!");
+        GameObject _spawnedProjectile = Instantiate(_projectile, _projSpawn.position, Quaternion.identity);
+        _spawnedProjectile.GetComponent<Projectiles>()._direction = _projSpawn.forward;
+        _fireCoolDownTime = 0;
     }
 }
