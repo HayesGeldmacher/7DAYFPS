@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class AssaultProjectile : Projectiles
 {
-    
+    [SerializeField] private Transform bulletMesh;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -15,14 +16,17 @@ public class AssaultProjectile : Projectiles
     // Update is called once per frame
     void Update()
     {
-        transform.position += base._direction * base._speed * Time.deltaTime;
-        float length = Vector3.Distance(base._startPos, transform.position);
+        transform.rotation = Quaternion.LookRotation(base._direction);
+        transform.position += transform.forward * base._speed * Time.deltaTime;
+        float _length = Vector3.Distance(base._startPos, transform.position);
 
-        if(length > base._distance)
+        if(_length > base._distance)
         {
             DestroyProjectile();
         }
+
     }
+
 
     void DestroyProjectile()
     {
