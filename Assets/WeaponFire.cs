@@ -24,7 +24,7 @@ public class WeaponFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(0) && _canFire){
+        if (Input.GetMouseButton(1) && _canFire){
             if (!_isFiring)
             {
                 BeginFiring();
@@ -40,6 +40,7 @@ public class WeaponFire : MonoBehaviour
 
         if (_isFiring)
         {
+           //You can only fire every X seconds
             _fireCoolDownTime += Time.deltaTime;
             if(_fireCoolDownTime > _fireNeededTime)
             {
@@ -52,7 +53,8 @@ public class WeaponFire : MonoBehaviour
 
     void GunRotationUpdate()
     {
-         Vector3 relativeLocation = _gunTarget.position - _gun.position;
+        //rotates the gun to slightly sway, following the player aiming 
+        Vector3 relativeLocation = _gunTarget.position - _gun.position;
         _gun.rotation = Quaternion.LookRotation(relativeLocation, Vector3.up);
     }
 
@@ -70,10 +72,13 @@ public class WeaponFire : MonoBehaviour
         _anim.SetBool("isFiring", false);
     }
 
+   
+    //What actually fires the projectile when _isFiring = true
     void FireProjectile()
     {
         Debug.Log("fired Projectile!");
         GameObject _spawnedProjectile = Instantiate(_projectile, _projSpawn.position, Quaternion.identity);
+        //shooting the projectile "through" the middle of the screen reticle
         Ray _rayOrigin = Camera.main.ScreenPointToRay(_reticle.position);
         Vector3 shootDirection = _rayOrigin.direction;
         _spawnedProjectile.GetComponent<Projectiles>()._direction = shootDirection;
