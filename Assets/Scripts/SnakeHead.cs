@@ -6,7 +6,8 @@ public class SnakeHead : SnakeSegment
 {
     [Header("Snake Movement")]
     public float DesiredDistance = 10;
-    public float Strength = 1;
+    public float DesiredHeight = 5;
+    public float CorrectionStrength = .2f;
     public float Squirm = 1;
     [Header("Attack")]
     public float MeanTimeBetweenAttacks = 15f;
@@ -15,6 +16,7 @@ public class SnakeHead : SnakeSegment
     private bool _attacking = false;
     private float _noiseOffset = 0f;
     private float _attackTimer = 0f;
+    private Vector3 _correction;
 
     private void Start()
     {
@@ -40,14 +42,27 @@ public class SnakeHead : SnakeSegment
             // Desired velocity should be normal to a shpere centered at the target
             Vector3 desiredVelocity = Vector3.ProjectOnPlane(currentVelocity, _target.position - transform.position).normalized;
             // Set velocity maintain desired distance from target
-            desiredVelocity += (toTarget.magnitude - DesiredDistance) * toTarget.normalized * Strength;
+            desiredVelocity += (toTarget.magnitude - DesiredDistance) * toTarget.normalized * CorrectionStrength;
             // Add some noisy movement perpendicular to the forward direction and towards the target
             desiredVelocity += Vector3.Cross(transform.forward, toTarget).normalized * (Mathf.PerlinNoise(Time.time + _noiseOffset, 0) * 2 - 1) * Squirm / 100;
+
+            float floor = Mathf.Max(0, _target.position.y - DesiredHeight);
+            float ceiling = _target.position.y + DesiredHeight;
+
+            // add up velocity based on distance to floor and ceiling
+            desiredVelocity += Vector3.up / Mathf.Pow(transform.position.y - floor, 2) * CorrectionStrength;
+            desiredVelocity += Vector3.down / Mathf.Pow(transform.position.y - ceiling, 2) * CorrectionStrength;
 
             // Update position and rotation based on desired velocity
             transform.rotation = Quaternion.LookRotation(desiredVelocity, Vector3.up);
             transform.position += transform.forward * Speed * Time.deltaTime;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawRay(_target.position, _correction * 5f);
     }
 
     private IEnumerator Attack()

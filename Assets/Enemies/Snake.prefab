@@ -838,7 +838,8 @@ MonoBehaviour:
   PathResolution: 10
   Path: []
   DesiredDistance: 20
-  Strength: 0.1
+  DesiredHeight: 15
+  CorrectionStrength: 0.2
   Squirm: 1
   MeanTimeBetweenAttacks: 10
   AttackTimeVariance: 5
