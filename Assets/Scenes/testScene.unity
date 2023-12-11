@@ -453,6 +453,7 @@ MonoBehaviour:
   _fireNeededTime: 0.3
   _projectile: {fileID: 1626615331550036632, guid: 35fdf22dacff57147876172c50f83c82, type: 3}
   _projSpawn: {fileID: 2055290854}
+  _reticle: {fileID: 174399251}
 --- !u!1 &508487910
 GameObject:
   m_ObjectHideFlags: 0
