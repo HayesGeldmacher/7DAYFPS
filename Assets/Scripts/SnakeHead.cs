@@ -68,13 +68,24 @@ public class SnakeHead : SnakeSegment
     private IEnumerator Attack()
     {
         _attacking = true;
-        float prevSpeed = Speed;
-        SetSpeed(Speed * 3);
+        float normalSpeed = Speed;
+        float attackSpeed = Speed * 4;
+
+        // lerp to attack speed and rotate to face target
+        Quaternion startRotation = transform.rotation;
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            SetSpeed(Mathf.Lerp(normalSpeed, attackSpeed, t));
+            transform.rotation = Quaternion.Lerp(startRotation, Quaternion.LookRotation(_target.position - transform.position, Vector3.up), t);
+            transform.position += transform.forward * Speed * Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
         
         // Move to the target
         Vector3 targetPosition = _target.position;
         Vector3 toTarget = targetPosition - transform.position;
-        Vector3 destination = transform.position + toTarget + toTarget.normalized * DesiredDistance;
         transform.rotation = Quaternion.LookRotation(toTarget, Vector3.up);
 
         while (Vector3.Distance(transform.position, targetPosition) > .1f)
@@ -92,6 +103,14 @@ public class SnakeHead : SnakeSegment
         _attackTimer = MeanTimeBetweenAttacks + Random.Range(-AttackTimeVariance, AttackTimeVariance);
         
         yield return new WaitForSeconds(1f);
-        SetSpeed(prevSpeed);
+
+        // lerp back to prevSpeed]
+        t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime;
+            SetSpeed(Mathf.Lerp(attackSpeed, normalSpeed, t));
+            yield return null;
+        }
     }
 }
