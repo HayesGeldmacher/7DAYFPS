@@ -8,6 +8,8 @@ public class WeaponFire : MonoBehaviour
     [SerializeField] private Transform _gun;
     [SerializeField] private Animator _anim;
     [SerializeField] private float _fireNeededTime;
+    [SerializeField] private GameObject _projectile;
+    [SerializeField] private Transform _projSpawn;
     private float _fireCoolDownTime;
     private bool _isFiring = false;
     private bool _canFire = true;
@@ -70,7 +72,8 @@ public class WeaponFire : MonoBehaviour
     void FireProjectile()
     {
         Debug.Log("fired Projectile!");
-        //fire 
+        GameObject _spawnedProjectile = Instantiate(_projectile, _projSpawn.position, Quaternion.identity);
+        _spawnedProjectile.GetComponent<Projectiles>()._direction = _projSpawn.forward;
         _fireCoolDownTime = 0;
     }
 }
