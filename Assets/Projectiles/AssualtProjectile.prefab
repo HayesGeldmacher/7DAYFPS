@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1626615331550036636}
   - component: {fileID: 1626615331550036637}
   - component: {fileID: 1626615331550036634}
-  - component: {fileID: 1626615331550036635}
+  - component: {fileID: 6253184539332767683}
   m_Layer: 8
   m_Name: AssualtProjectile
   m_TagString: Untagged
@@ -97,7 +97,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1626615331550036635
+--- !u!114 &6253184539332767683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,15 +106,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1626615331550036632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 506494af48b66ba419901630424a1449, type: 3}
+  m_Script: {fileID: 11500000, guid: 49c6480e476d70943bbd6e51938ffd30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 50
   _damage: 10
-  _direction: {x: 0, y: 0, z: 0}
   _deceleration: 3
-  _distance: 50
-  bulletMesh: {fileID: 0}
+  _maxDistance: 50
 --- !u!1 &2124790484647541658
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ public class WeaponFire : MonoBehaviour
         //shooting the projectile "through" the middle of the screen reticle
         Ray _rayOrigin = Camera.main.ScreenPointToRay(_reticle.position);
         Vector3 shootDirection = _rayOrigin.direction;
-        _spawnedProjectile.GetComponent<Projectiles>()._direction = shootDirection;
+        _spawnedProjectile.transform.rotation = Quaternion.LookRotation(shootDirection);
         _fireCoolDownTime = 0;
     }
 }

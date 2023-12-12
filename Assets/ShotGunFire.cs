@@ -71,7 +71,7 @@ public class ShotGunFire : MonoBehaviour
             shootDirection = new Vector3(shootDirection.x + xVariation, shootDirection.y + yVariation, shootDirection.z + zVariation);
             shootDirection = shootDirection.normalized;
 
-            _spawnedProjectile.GetComponent<Projectiles>()._direction = shootDirection;
+            _spawnedProjectile.transform.rotation = Quaternion.LookRotation(shootDirection);
         }
 
         _fireCoolDownTime = 0;
