@@ -32,4 +32,11 @@ public class Projectile : MonoBehaviour
         //get some sort of fading aimation effect instead of just disappearing!
         Destroy(gameObject);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Hit " + other.gameObject.name);
+        other.gameObject.GetComponent<Health>()?.TakeDamage(_damage);
+        DestroyProjectile();
+    }
 }

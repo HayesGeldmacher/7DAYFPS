@@ -59,12 +59,6 @@ public class SnakeHead : SnakeSegment
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(_target.position, _correction * 5f);
-    }
-
     private IEnumerator Attack()
     {
         _attacking = true;
