@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Scripting.APIUpdating;
 
+[RequireComponent(typeof(Health))]
 public class SnakeSegment : MonoBehaviour
 {
     public SnakeSegment ParentSegment = null;
@@ -14,6 +15,16 @@ public class SnakeSegment : MonoBehaviour
     [HideInInspector] public List<Vector3> Path = new List<Vector3>();
     private Vector3 _targetPosition;
     private Quaternion _targetRotation;
+
+    private void OnEnable()
+    {
+        GetComponent<Health>().OnDeath += OnDeath;
+    }
+
+    private void OnDisable()
+    {
+        GetComponent<Health>().OnDeath -= OnDeath;
+    }
 
     private void Start()
     {
@@ -65,6 +76,25 @@ public class SnakeSegment : MonoBehaviour
         Speed = speed;
         if (ChildSegment != null)
             ChildSegment.SetSpeed(speed);
+    }
+
+    private void OnDeath()
+    {
+        if (ChildSegment != null)
+        {
+            ChildSegment.enabled = false;
+            SnakeHead newHead = ChildSegment.gameObject.AddComponent<SnakeHead>();
+            newHead.Target = ParentSegment.transform;
+            newHead.ChildSegment = ChildSegment.ChildSegment;
+            if (ChildSegment.ChildSegment != null)
+                ChildSegment.ChildSegment.ParentSegment = newHead;
+        }
+        if (ParentSegment != null)
+        {
+            ParentSegment.ChildSegment = null;
+            ParentSegment = null;
+        }
+        Destroy(gameObject);
     }
     
 }

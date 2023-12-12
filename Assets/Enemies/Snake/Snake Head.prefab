@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 7942925742981806437}
   - component: {fileID: 6979525804188328455}
   - component: {fileID: 3550196229473451334}
-  - component: {fileID: 6979525804188328454}
   - component: {fileID: 3083274699742737641}
   m_Layer: 0
   m_Name: Snake Head
@@ -142,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea69922cfa8775d49a87b0b4f5bd849b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 1e+10
+  _maxHealth: 50
   _currentHealth: 0
   _isDead: 0
 --- !u!114 &3550196229473451334
@@ -162,18 +161,6 @@ MonoBehaviour:
   _flashColor: {r: 1, g: 1, b: 1, a: 0}
   _flashTime: 0.1
   _blinkTime: 0.025
---- !u!114 &6979525804188328454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6979525804188328449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd4a32920b0855547ad2e104fbd60c26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3083274699742737641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,3 +185,4 @@ MonoBehaviour:
   Squirm: 1
   MeanTimeBetweenAttacks: 15
   AttackTimeVariance: 5
+  Target: {fileID: 0}
