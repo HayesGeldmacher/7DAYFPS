@@ -24,6 +24,7 @@ public class SnakeHead : SnakeSegment
         Target = GameObject.FindObjectOfType<EthanPlayerMovement>().transform;
         _noiseOffset = Random.Range(0f, 100f);
         _attackTimer = MeanTimeBetweenAttacks + Random.Range(-AttackTimeVariance, AttackTimeVariance);
+        GetComponent<Health>().CurrentHealth = 1;
     }
 
     private void Update()

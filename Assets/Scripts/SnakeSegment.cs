@@ -80,14 +80,16 @@ public class SnakeSegment : MonoBehaviour
 
     private void OnDeath()
     {
+        ResetHealth();
         if (ChildSegment != null)
         {
             ChildSegment.enabled = false;
             SnakeHead newHead = ChildSegment.gameObject.AddComponent<SnakeHead>();
-            newHead.Target = ParentSegment.transform;
             newHead.ChildSegment = ChildSegment.ChildSegment;
+            newHead.DistanceFromChild = ChildSegment.DistanceFromChild;
             if (ChildSegment.ChildSegment != null)
                 ChildSegment.ChildSegment.ParentSegment = newHead;
+            // newHead.GetComponent<Health>().TakeDamage(newHead.GetComponent<Health>().CurrentHealth - 1);
         }
         if (ParentSegment != null)
         {
@@ -95,6 +97,20 @@ public class SnakeSegment : MonoBehaviour
             ParentSegment = null;
         }
         Destroy(gameObject);
+    }
+
+    private void ResetHealth()
+    {
+        if (ParentSegment == null)
+            GetComponent<Health>().CurrentHealth = 1;
+        else
+            GetComponent<Health>().CurrentHealth = GetComponent<Health>().MaxHealth;
+        Health childHealth = ChildSegment?.GetComponent<Health>();
+        Health parentHealth = ParentSegment?.GetComponent<Health>();
+        if (ChildSegment != null && childHealth.CurrentHealth != childHealth.MaxHealth)
+            ChildSegment.ResetHealth();
+        if (ParentSegment != null && parentHealth.CurrentHealth != parentHealth.MaxHealth)
+            ParentSegment.ResetHealth();
     }
     
 }
