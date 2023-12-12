@@ -10,7 +10,7 @@ public class Health : MonoBehaviour
     
     // These are properties because I want everybody to have public access to read them but nobody else can set them
     public float MaxHealth { get => _maxHealth; }
-    public float CurrentHealth { get => _currentHealth; }
+    public float CurrentHealth { get => _currentHealth; set => _currentHealth = value;}
     public bool IsDead { get => _isDead; }
 
     // Events for other scripts to subscribe to
@@ -20,7 +20,7 @@ public class Health : MonoBehaviour
     public HealthChangeHandler OnHeal;
     public DeathHandler OnDeath;
 
-    private void Start()
+    private void Awake()
     {
         _currentHealth = _maxHealth;
     }
