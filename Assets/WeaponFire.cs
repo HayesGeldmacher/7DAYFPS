@@ -71,7 +71,6 @@ public class WeaponFire : MonoBehaviour
         _isFiring = false;
         _anim.SetBool("isFiring", false);
     }
-
    
     //What actually fires the projectile when _isFiring = true
     void FireProjectile()
@@ -81,6 +80,14 @@ public class WeaponFire : MonoBehaviour
         //shooting the projectile "through" the middle of the screen reticle
         Ray _rayOrigin = Camera.main.ScreenPointToRay(_reticle.position);
         Vector3 shootDirection = _rayOrigin.direction;
+
+        //need to correct angle so it shoot closer to the "Center" 
+        Vector3 correctedAngle = _projSpawn.forward;
+        correctedAngle = correctedAngle * 0.3f;
+        shootDirection += correctedAngle;
+        shootDirection = shootDirection.normalized;
+
+
         _spawnedProjectile.transform.rotation = Quaternion.LookRotation(shootDirection);
         _fireCoolDownTime = 0;
     }

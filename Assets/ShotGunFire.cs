@@ -69,8 +69,14 @@ public class ShotGunFire : MonoBehaviour
             float zVariation = Random.Range(-_shellAngleVariation, _shellAngleVariation);
 
             shootDirection = new Vector3(shootDirection.x + xVariation, shootDirection.y + yVariation, shootDirection.z + zVariation);
-            shootDirection = shootDirection.normalized;
 
+            //need to correct angle so it shoot closer to the "Center" 
+            Vector3 correctedAngle = _projSpawn.forward;
+            correctedAngle = correctedAngle * 0.3f;
+            shootDirection += correctedAngle;
+
+
+            shootDirection = shootDirection.normalized;
             _spawnedProjectile.transform.rotation = Quaternion.LookRotation(shootDirection);
         }
 
