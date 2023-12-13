@@ -11,7 +11,7 @@ public class Cicada : MonoBehaviour
     [SerializeField] private float _cohesionWeight = 1f;
     [SerializeField] private float _separationWeight = 1f;
     [SerializeField] private float _alignmentWeight = 1f;
-    [SerializeField] private float _randomWeight = 1f;
+    [SerializeField] private float _randomWeight = 3f;
     private Transform _target;
     private Vector3 _velocity = Vector3.zero;
     
@@ -89,7 +89,7 @@ public class Cicada : MonoBehaviour
         _velocity += cohesion + separation + alignment;
         _velocity = Vector3.ClampMagnitude(_velocity, _speed);
         transform.position += _velocity * Time.deltaTime;
-
+        transform.rotation = Quaternion.LookRotation(_target.position - transform.position, Vector3.up);
 
         
     }
