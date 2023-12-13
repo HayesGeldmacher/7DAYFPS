@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3895277369062984091}
   - component: {fileID: 1578106720007468162}
   - component: {fileID: 1824537805855875892}
+  - component: {fileID: 1583618615378351071}
   m_Layer: 0
   m_Name: Snake Tail
   m_TagString: Untagged
@@ -43,7 +44,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364114361306883205}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.5, y: 3, z: 8}
@@ -98,6 +99,19 @@ MonoBehaviour:
   Speed: 10
   PathResolution: 10
   Path: []
+--- !u!114 &1583618615378351071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364114361306883205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4538c3e55b9a0b04fa11f2dca2b16263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
 --- !u!1001 &9125748277569681507
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 6979525804188328455}
   - component: {fileID: 3550196229473451334}
   - component: {fileID: 3083274699742737641}
+  - component: {fileID: 253009110317967309}
   m_Layer: 0
   m_Name: Snake Head
   m_TagString: Untagged
@@ -124,7 +125,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6979525804188328449}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5.04, y: 3.7, z: 6}
@@ -183,6 +184,22 @@ MonoBehaviour:
   DesiredHeight: 15
   CorrectionStrength: 0.2
   Squirm: 1
+  NormalSpeed: 5
+  AttackSpeed: 10
   MeanTimeBetweenAttacks: 15
   AttackTimeVariance: 5
   Target: {fileID: 0}
+  Attacking: 0
+--- !u!114 &253009110317967309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6979525804188328449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4538c3e55b9a0b04fa11f2dca2b16263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 10
