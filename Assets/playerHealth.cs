@@ -9,17 +9,21 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private Animator _healthAnimator;
     [SerializeField] private Health _playerHealth;
 
-   void Start()
+    private void OnEnable()
     {
         _playerHealth.OnDamageTaken += DamageUpdateText;
-        _playerHealth.SetMaxHealth += StartUpdateText;
         _playerHealth.OnDeath += OnDeathPlayer;
     }
 
-    private void StartUpdateText(float oldHealth, float newHealth)
+    private void OnDisable()
     {
-        //Sets the health UI to reflect playerHealth
-        _healthText.text = newHealth.ToString();
+        _playerHealth.OnDamageTaken -= DamageUpdateText;
+        _playerHealth.OnDeath -= OnDeathPlayer;
+    }
+
+    private void Start()
+    {
+        _healthText.text = _playerHealth.CurrentHealth.ToString();
     }
 
     private void DamageUpdateText(float oldHealth, float newHealth)

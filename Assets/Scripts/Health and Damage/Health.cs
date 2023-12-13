@@ -18,20 +18,11 @@ public class Health : MonoBehaviour
     public delegate void DeathHandler();
     public HealthChangeHandler OnDamageTaken;
     public HealthChangeHandler OnHeal;
-    public HealthChangeHandler SetMaxHealth;
     public DeathHandler OnDeath;
 
     private void Awake()
     {
         _currentHealth = _maxHealth;
-        
-    }
-
-    //Created another delegate so that playerhealth can be set to max upon starting the game!
-   private void Start()
-    {
-        Debug.Log("startedHealth!");
-        SetMaxHealth?.Invoke(_maxHealth, _maxHealth);
     }
 
     public void TakeDamage(float damage)
