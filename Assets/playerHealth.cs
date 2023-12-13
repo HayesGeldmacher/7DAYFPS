@@ -13,16 +13,23 @@ public class playerHealth : MonoBehaviour
    void Start()
     {
         Debug.Log("Started!");
-        _playerHealth.OnDamageTaken += UpdateText;
-        _playerHealth.SetMaxHealth += UpdateText;
+        _playerHealth.OnDamageTaken += DamageUpdateText;
+        _playerHealth.SetMaxHealth += StartUpdateText;
     }
 
-    private void UpdateText(float oldHealth, float newHealth)
+    private void StartUpdateText(float oldHealth, float newHealth)
     {
-        Debug.Log("Updated TExt!");
-        
+
+
         //Sets the health UI to reflect playerHealth
         _healthText.text = newHealth.ToString();
+    }
+
+    private void DamageUpdateText(float oldHealth, float newHealth)
+    {  
+        //Sets the health UI to reflect playerHealth
+        _healthText.text = newHealth.ToString();
+        _healthAnimator.SetTrigger("hurt");
     }
 
  
