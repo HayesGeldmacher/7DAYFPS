@@ -78,6 +78,14 @@ public class SnakeSegment : MonoBehaviour
             ChildSegment.SetSpeed(speed);
     }
 
+    protected SnakeHead GetHead()
+    {
+        if (ParentSegment == null)
+            return (SnakeHead)this;
+        else
+            return ParentSegment.GetHead();
+    }
+
     private void OnDeath()
     {
         ResetHealth();
@@ -85,11 +93,16 @@ public class SnakeSegment : MonoBehaviour
         {
             ChildSegment.enabled = false;
             SnakeHead newHead = ChildSegment.gameObject.AddComponent<SnakeHead>();
+            newHead.Target = GetHead().Target;
+            newHead.Speed = GetHead().Speed;
+            newHead.NormalSpeed = GetHead().NormalSpeed;
+            newHead.AttackSpeed = GetHead().AttackSpeed;
             newHead.ChildSegment = ChildSegment.ChildSegment;
             newHead.DistanceFromChild = ChildSegment.DistanceFromChild;
             if (ChildSegment.ChildSegment != null)
                 ChildSegment.ChildSegment.ParentSegment = newHead;
-            // newHead.GetComponent<Health>().TakeDamage(newHead.GetComponent<Health>().CurrentHealth - 1);
+            if (GetHead().Attacking)
+                newHead.StartCoroutine(newHead.Attack());
         }
         if (ParentSegment != null)
         {
