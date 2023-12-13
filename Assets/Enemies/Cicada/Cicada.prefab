@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53778f952289a2441b10621d7b1e5751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 8
   _cohesionRadius: 10
   _separationRadius: 3
   _alignmentRadius: 5
@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4538c3e55b9a0b04fa11f2dca2b16263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _damage: 5
+  _damage: 15
   _damageInterval: 1
 --- !u!95 &441561250081139659
 Animator:
