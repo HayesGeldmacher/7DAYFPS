@@ -11,6 +11,11 @@ public class WeaponFire : MonoBehaviour
     [SerializeField] private GameObject _projectile;
     [SerializeField] private Transform _projSpawn;
     [SerializeField] private Transform _reticle;
+    [SerializeField] private AudioSource _fireAudio;
+    [SerializeField] private float _minSoundVolume = 0.2f;
+    [SerializeField] private float _maxSoundVolume = 0.35f;
+    [SerializeField] private float _minPitch = 0.8f;
+    [SerializeField] private float _maxPitch = 1.2f;
     private float _fireCoolDownTime;
     private bool _isFiring = false;
     private bool _canFire = true;
@@ -45,6 +50,13 @@ public class WeaponFire : MonoBehaviour
             if(_fireCoolDownTime > _fireNeededTime)
             {
                 FireProjectile();
+            }
+
+           
+            //omly loops the sound if it has finished playing and we are still firing!
+            if (!_fireAudio.isPlaying)
+            {
+                SoundManager();
             }
         }
 
@@ -90,5 +102,17 @@ public class WeaponFire : MonoBehaviour
 
         _spawnedProjectile.transform.rotation = Quaternion.LookRotation(shootDirection);
         _fireCoolDownTime = 0;
+    }
+
+    void SoundManager()
+    {
+        //randomly play the shotgun audio at a different sound and pitch
+
+        float randomPitch = Random.Range(_minPitch, _maxPitch);
+        float randomVolume = Random.Range(_minSoundVolume, _maxSoundVolume);
+
+        _fireAudio.pitch = randomPitch;
+        _fireAudio.volume = randomVolume;
+        _fireAudio.Play();
     }
 }
