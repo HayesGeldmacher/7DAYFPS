@@ -749,7 +749,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 1399
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1921,13 +1921,13 @@ MonoBehaviour:
   _gunTarget: {fileID: 0}
   _gun: {fileID: 0}
   _anim: {fileID: 640259469091582091}
-  _fireNeededTime: 1
+  _fireNeededTime: 0.6
   _projectile: {fileID: 1626615331550036632, guid: 35fdf22dacff57147876172c50f83c82, type: 3}
   _projSpawn: {fileID: 674199288}
   _reticle: {fileID: 174399251}
-  _minShells: 16
-  _maxShells: 20
-  _shellAngleVariation: 0.3
+  _minShells: 25
+  _maxShells: 30
+  _shellAngleVariation: 0.2
 --- !u!1 &1604293041
 GameObject:
   m_ObjectHideFlags: 0
