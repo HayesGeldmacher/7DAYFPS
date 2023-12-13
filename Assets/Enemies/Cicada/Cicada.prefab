@@ -113,6 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd4a32920b0855547ad2e104fbd60c26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spawnCorpse: 1
+  _corpse: {fileID: 9219742183130116731, guid: d4022c58ae02fcc4ba3f2eaada8988d0, type: 3}
 --- !u!114 &2963739608248309988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 5
+  _damageInterval: 1
 --- !u!95 &441561250081139659
 Animator:
   serializedVersion: 3
