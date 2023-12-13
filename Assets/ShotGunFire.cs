@@ -14,16 +14,14 @@ public class ShotGunFire : MonoBehaviour
     [SerializeField] private int _minShells;
     [SerializeField] private int _maxShells;
     [SerializeField] private float _shellAngleVariation;
+    [SerializeField] private AudioSource _fireAudio;
+    [SerializeField] private float _minSoundVolume = 0.2f;
+    [SerializeField] private float _maxSoundVolume = 0.35f;
+    [SerializeField] private float _minPitch = 0.8f;
+    [SerializeField] private float _maxPitch = 1.2f;
+
     private float _fireCoolDownTime;
     private bool _canFire = true;
-
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -50,6 +48,7 @@ public class ShotGunFire : MonoBehaviour
     {
        
         _anim.SetTrigger("fire");
+        SoundManager();
        
         //slightly randomizing the number of shells that will spawn each fire
         int _shellsToFire = Random.Range(_minShells, _maxShells);
@@ -82,5 +81,17 @@ public class ShotGunFire : MonoBehaviour
 
         _fireCoolDownTime = 0;
         _canFire = false;
+    }
+
+    void SoundManager()
+    {
+        //randomly play the shotgun audio at a different sound and pitch
+        
+        float randomPitch = Random.Range(_minPitch, _maxPitch);
+        float randomVolume = Random.Range(_minSoundVolume, _maxSoundVolume);
+
+        _fireAudio.pitch = randomPitch;
+        _fireAudio.volume = randomVolume;
+        _fireAudio.Play();
     }
 }
