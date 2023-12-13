@@ -10,10 +10,12 @@ public class SnakeHead : SnakeSegment
     public float CorrectionStrength = .2f;
     public float Squirm = 1;
     [Header("Attack")]
+    public float NormalSpeed = 5f;
+    public float AttackSpeed = 10f;
     public float MeanTimeBetweenAttacks = 15f;
     public float AttackTimeVariance = 5f;
     public Transform Target;
-    private bool _attacking = false;
+    public bool Attacking = false;
     private float _noiseOffset = 0f;
     private float _attackTimer = 0f;
     private Vector3 _correction;
@@ -32,10 +34,10 @@ public class SnakeHead : SnakeSegment
         UpdatePath();
 
         _attackTimer -= Time.deltaTime;
-        if (_attackTimer < 0 && !_attacking)
+        if (_attackTimer < 0 && !Attacking)
             StartCoroutine(Attack());
 
-        if (!_attacking)
+        if (!Attacking)
         {
             Vector3 toTarget = Target.position - transform.position;
             Vector3 currentVelocity = transform.forward;
@@ -60,19 +62,17 @@ public class SnakeHead : SnakeSegment
         }
     }
 
-    private IEnumerator Attack()
+    public IEnumerator Attack()
     {
-        _attacking = true;
-        float normalSpeed = Speed;
-        float attackSpeed = Speed * 4;
+        Attacking = true;
 
         // lerp to attack speed and rotate to face target
         Quaternion startRotation = transform.rotation;
         float t = 0f;
-        while (t < 1f)
+        while (t < AttackSpeed - Speed)
         {
             t += Time.deltaTime;
-            SetSpeed(Mathf.Lerp(normalSpeed, attackSpeed, t));
+            SetSpeed(Mathf.Lerp(NormalSpeed, AttackSpeed, t));
             transform.rotation = Quaternion.Lerp(startRotation, Quaternion.LookRotation(Target.position - transform.position, Vector3.up), t);
             transform.position += transform.forward * Speed * Time.deltaTime;
             yield return new WaitForEndOfFrame();
@@ -94,17 +94,19 @@ public class SnakeHead : SnakeSegment
             yield return null;
         }
 
-        _attacking = false;
+        Attacking = false;
         _attackTimer = MeanTimeBetweenAttacks + Random.Range(-AttackTimeVariance, AttackTimeVariance);
         
         yield return new WaitForSeconds(1f);
+
+        SetSpeed(NormalSpeed);
 
         // lerp back to prevSpeed]
         t = 0f;
         while (t < 1f)
         {
             t += Time.deltaTime;
-            SetSpeed(Mathf.Lerp(attackSpeed, normalSpeed, t));
+            SetSpeed(Mathf.Lerp(AttackSpeed, NormalSpeed, t));
             yield return null;
         }
     }
