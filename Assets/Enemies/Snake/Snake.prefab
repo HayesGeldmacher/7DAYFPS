@@ -2848,6 +2848,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3083274699742737641, guid: faa29465fdc63df4197942898fd0d437, type: 3}
+      propertyPath: Speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3083274699742737641, guid: faa29465fdc63df4197942898fd0d437, type: 3}
       propertyPath: ChildSegment
       value: 
       objectReference: {fileID: 3147176329988985598}
