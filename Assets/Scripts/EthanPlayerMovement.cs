@@ -19,6 +19,11 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _boostAcceleration = 10f;
     [Range(0,1)] [SerializeField] private float _airControl = 0.2f;
     [SerializeField] private float _jumpCooldown = 0.1f;
+    [Header("Jump")]
+    [SerializeField] private float __maxEnergy = 100f;
+    [SerializeField] private float __currentEnergy = 100f;
+
+
 
     public Vector3 Velocity = Vector3.zero;
     public bool Grounded = false;
@@ -87,6 +92,15 @@ public class EthanPlayerMovement : MonoBehaviour
         _controller.Move(Velocity * Time.deltaTime);
     }
 
+    private void CheckEnergy()
+    {
+        if(__currentEnergy <= 0)
+        {
+            float time = 0;
+            Transform(time);
+        }
+    }
+
     private void Jump()
     {
         Velocity.y += _jumpVelocity;
@@ -112,5 +126,12 @@ public class EthanPlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(_dashDuration);
         Dashing = false;
         _dashTimer = _dashCooldown;
+    }
+
+    private IEnumerator Transform(float time)
+    {
+        //this is where the player will transform from aerial to turret mode!
+        yield return new WaitForSeconds(time);
+        Debug.Log("Transformed");
     }
 }

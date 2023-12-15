@@ -1048,6 +1048,7 @@ GameObject:
   - component: {fileID: 712071822}
   - component: {fileID: 712071826}
   - component: {fileID: 712071825}
+  - component: {fileID: 712071827}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1167,6 +1168,34 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!114 &712071827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 712071821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693b4bd8c2455144097307f2f6b4076e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerBody: {fileID: 1086131613}
+  _mouseSensitivityX: 300
+  _mouseSensitivityY: 1
+  _forwardCameraTilt: 1
+  _sideCameraTilt: 3
+  _dashFOV: 60
+  maxReticleX: 0
+  maxReticleY: 0
+  reticleAcceleration: 0
+  reticleDecceleration: 0
+  Reticle: {fileID: 0}
+  gun: {fileID: 0}
+  maxGunX: 0
+  maxGunY: 0
+  gunAcceleration: 0
+  gunDecceleration: 0
 --- !u!1 &797478516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,7 +1461,7 @@ GameObject:
   - component: {fileID: 1086131614}
   - component: {fileID: 1086131615}
   m_Layer: 6
-  m_Name: Player
+  m_Name: turretPlayer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
