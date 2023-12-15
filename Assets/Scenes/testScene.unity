@@ -2634,7 +2634,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSpeed: 10
   _acceleration: 10
-  _dashSpeed: 15
+  _dashSpeed: 30
   _dashAcceleration: 15
   _dashDuration: 0.33333334
   _dashCooldown: 0.25
@@ -2643,6 +2643,8 @@ MonoBehaviour:
   _boostAcceleration: 50
   _airControl: 0.2
   _jumpCooldown: 0.1
+  __maxEnergy: 100
+  __currentEnergy: 100
   Velocity: {x: 0, y: 0, z: 0}
   Grounded: 0
   Dashing: 0
