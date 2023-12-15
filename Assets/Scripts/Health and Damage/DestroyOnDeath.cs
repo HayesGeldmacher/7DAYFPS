@@ -7,6 +7,8 @@ public class DestroyOnDeath : MonoBehaviour
 {
     [SerializeField] private bool _spawnCorpse;
     [SerializeField] private GameObject _corpse;
+    [SerializeField] private bool _playAudio;
+    [SerializeField] private GameObject _audioEffect;
 
     private void OnEnable()
     {
@@ -25,6 +27,11 @@ public class DestroyOnDeath : MonoBehaviour
             Instantiate(_corpse, transform.position, Quaternion.identity);
         }
         
+        if( _playAudio)
+        {
+            Instantiate(_audioEffect, transform.position, Quaternion.identity);
+        }
+
         Destroy(gameObject);
     }
 }
