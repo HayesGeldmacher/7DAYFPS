@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(CharacterController))]
 public class EthanPlayerMovement : MonoBehaviour
@@ -19,9 +20,15 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _boostAcceleration = 10f;
     [Range(0,1)] [SerializeField] private float _airControl = 0.2f;
     [SerializeField] private float _jumpCooldown = 0.1f;
-    [Header("Jump")]
-    [SerializeField] private float __maxEnergy = 100f;
-    [SerializeField] private float __currentEnergy = 100f;
+    [Header("Energy")]
+    [SerializeField] private float _maxEnergy = 100f;
+    [SerializeField] private float _currentEnergy = 100f;
+    [SerializeField] private float _energyCostDash = 8;
+    [SerializeField] private float _energyBoostSpeed = 1;
+    [SerializeField] private float _energyCostIdle = 1;
+    [SerializeField] private float _energyIdleSpeed = 1;
+    [SerializeField] private TMP_Text  _energyText;
+    private float _idleEnergyTimer = 0;
 
 
 
@@ -32,6 +39,7 @@ public class EthanPlayerMovement : MonoBehaviour
     private float _dashTimer = 0f;
     private float _jumpTimer = 0f;
     private CharacterController _controller;
+    private bool _isBoosting = false;
 
 
     private void Awake()
@@ -59,10 +67,21 @@ public class EthanPlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             if (Input.GetKeyDown(KeyCode.Space) && _jumpTimer <= 0 && Grounded)
+            {
                 Jump();
+                _isBoosting = false;
+            }
             else
+            {
                 Boost();
+                _isBoosting = true;
+            }
         }
+        else
+        {
+            _isBoosting= false;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer <= 0)
         {
             StartCoroutine(Dash());
@@ -90,14 +109,35 @@ public class EthanPlayerMovement : MonoBehaviour
             Velocity.y = 0;
 
         _controller.Move(Velocity * Time.deltaTime);
+
+       //drains idle energy every frame, then checks how much energy is left
+        CheckEnergyUpdate();
     }
 
-    private void CheckEnergy()
+    private void CheckEnergyUpdate()
     {
-        if(__currentEnergy <= 0)
+        _currentEnergy = Mathf.Clamp(_currentEnergy, 0, _maxEnergy);
+        _energyText.text = _currentEnergy.ToString();
+        
+        if(_currentEnergy <= 0)
         {
             float time = 0;
             Transform(time);
+        }
+
+        //drains a constant small amount of energy from the player every second
+        //Energy will drain faster if you are boosting in the air
+        if (_isBoosting)
+        {
+            _idleEnergyTimer += Time.deltaTime * _energyBoostSpeed;
+        }
+        else
+        {
+            _idleEnergyTimer += Time.deltaTime * _energyIdleSpeed;
+        }
+        if( _idleEnergyTimer >= 1 ) {
+            _idleEnergyTimer = 0;
+            DrainEnergy(_energyCostIdle);
         }
     }
 
@@ -115,6 +155,9 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        //drains energy to dash!
+        DrainEnergy(_energyCostDash);
+
         Dashing = true;
         Vector3 input = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
         if (input.magnitude > .1f)
@@ -126,6 +169,8 @@ public class EthanPlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(_dashDuration);
         Dashing = false;
         _dashTimer = _dashCooldown;
+
+       
     }
 
     private IEnumerator Transform(float time)
@@ -133,5 +178,10 @@ public class EthanPlayerMovement : MonoBehaviour
         //this is where the player will transform from aerial to turret mode!
         yield return new WaitForSeconds(time);
         Debug.Log("Transformed");
+    }
+
+    private void DrainEnergy(float energyCost)
+    {
+        _currentEnergy -= energyCost;
     }
 }
