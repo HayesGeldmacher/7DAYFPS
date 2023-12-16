@@ -24,22 +24,20 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _maxEnergy = 100f;
     [SerializeField] private float _currentEnergy = 100f;
     [SerializeField] private float _energyCostDash = 8;
-    [SerializeField] private float _energyBoostSpeed = 1;
     [SerializeField] private float _energyCostIdle = 1;
-    [SerializeField] private float _energyIdleSpeed = 1;
+    [SerializeField] private float _energyCostBoost = 4;
     [SerializeField] private TMP_Text  _energyText;
-    private float _idleEnergyTimer = 0;
-
 
 
     public Vector3 Velocity = Vector3.zero;
     public bool Grounded = false;
-     public bool Dashing = false;
+    public bool Dashing = false;
+    private bool Boosting = false;
+
     private Vector3 _dashDirection = Vector3.zero;
     private float _dashTimer = 0f;
     private float _jumpTimer = 0f;
     private CharacterController _controller;
-    private bool _isBoosting = false;
 
 
     private void Awake()
@@ -64,23 +62,16 @@ public class EthanPlayerMovement : MonoBehaviour
         // Check for jump and dash
         _dashTimer -= Time.deltaTime;
         _jumpTimer -= Time.deltaTime;
+        Boosting = false;
         if (Input.GetKey(KeyCode.Space))
         {
+            Boosting = true;
             if (Input.GetKeyDown(KeyCode.Space) && _jumpTimer <= 0 && Grounded)
-            {
                 Jump();
-                _isBoosting = false;
-            }
             else
-            {
                 Boost();
-                _isBoosting = true;
-            }
         }
-        else
-        {
-            _isBoosting= false;
-        }
+
 
         if (Input.GetKeyDown(KeyCode.LeftShift) && _dashTimer <= 0)
         {
@@ -110,35 +101,18 @@ public class EthanPlayerMovement : MonoBehaviour
 
         _controller.Move(Velocity * Time.deltaTime);
 
-       //drains idle energy every frame, then checks how much energy is left
+       //drains energy every fram based on the current state of the player
         CheckEnergyUpdate();
     }
 
     private void CheckEnergyUpdate()
     {
-        _currentEnergy = Mathf.Clamp(_currentEnergy, 0, _maxEnergy);
-        _energyText.text = _currentEnergy.ToString();
-        
-        if(_currentEnergy <= 0)
-        {
-            float time = 0;
-            Transform(time);
-        }
 
-        //drains a constant small amount of energy from the player every second
-        //Energy will drain faster if you are boosting in the air
-        if (_isBoosting)
-        {
-            _idleEnergyTimer += Time.deltaTime * _energyBoostSpeed;
-        }
-        else
-        {
-            _idleEnergyTimer += Time.deltaTime * _energyIdleSpeed;
-        }
-        if( _idleEnergyTimer >= 1 ) {
-            _idleEnergyTimer = 0;
-            DrainEnergy(_energyCostIdle);
-        }
+        float boostConsumptionRate = Dashing ? _energyCostDash : Boosting ? _energyCostBoost : _energyCostIdle;
+        _currentEnergy -= boostConsumptionRate * Time.deltaTime;
+
+        _currentEnergy = Mathf.Clamp(_currentEnergy, 0, _maxEnergy);
+        _energyText.text = ((int)_currentEnergy).ToString();
     }
 
     private void Jump()
@@ -149,14 +123,15 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private void Boost()
     {
+        if (_currentEnergy <= 0) return;
+
         Velocity.y += _boostAcceleration * Time.deltaTime;
         Velocity.y = Mathf.Clamp(Velocity.y, float.NegativeInfinity, _boostVelocity);
     }
 
     private IEnumerator Dash()
     {
-        //drains energy to dash!
-        DrainEnergy(_energyCostDash);
+        if (_currentEnergy <= 0) yield break;
 
         Dashing = true;
         Vector3 input = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
@@ -169,8 +144,6 @@ public class EthanPlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(_dashDuration);
         Dashing = false;
         _dashTimer = _dashCooldown;
-
-       
     }
 
     private IEnumerator Transform(float time)
@@ -178,10 +151,5 @@ public class EthanPlayerMovement : MonoBehaviour
         //this is where the player will transform from aerial to turret mode!
         yield return new WaitForSeconds(time);
         Debug.Log("Transformed");
-    }
-
-    private void DrainEnergy(float energyCost)
-    {
-        _currentEnergy -= energyCost;
     }
 }
