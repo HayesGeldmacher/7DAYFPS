@@ -12,6 +12,9 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Animator _hazardAnim;
     [SerializeField] private float waitTime;
     [SerializeField] private introManager intro;
+    [SerializeField] private AudioSource _finalAudio;
+    [SerializeField] private AudioSource _confirmAudio;
+
 
     void Start()
     {
@@ -39,6 +42,8 @@ public class DialogueManager : MonoBehaviour
 
     public void DisplayNextSentence()
     {
+        _confirmAudio.Play();
+        
         if (sentences.Count == 0)
         {
             EndDialogue();
@@ -59,6 +64,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator EndOfDialogue()
     {
+        _finalAudio.Play();
         _textAnim.SetTrigger("fade");
         _hazardAnim.SetTrigger("fade");
         yield return new WaitForSeconds(waitTime);

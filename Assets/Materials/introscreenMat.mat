@@ -89,7 +89,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_4fd90d0ce6d349c9a6400ec21704a612: 1
+    - Vector1_4fd90d0ce6d349c9a6400ec21704a612: 0.1
     - Vector1_ca2cb7ddd24a49599123b103fe4fb024: 1
     - Vector1_d67d01d0c52a41a3bba4ae6623a2473d: 10
     - _AlphaClip: 0
@@ -106,8 +106,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Grid_Size: -118.98
-    - _Line_Width: 1
+    - _Grid_Size: 38.78
+    - _Line_Width: 0.2
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

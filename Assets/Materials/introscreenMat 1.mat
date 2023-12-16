@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: introscreenMat
+  m_Name: introscreenMat 1
   m_Shader: {fileID: -6465566751694194690, guid: f8d58c4baa54552498a036b4478bfc49, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
