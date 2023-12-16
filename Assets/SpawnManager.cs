@@ -9,6 +9,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _intensityRate = 1.01f;
     private float _spawnTimer = 0f;
     private GameManager _gameManager;
+    private Transform _player;
 
     private void Start()
     {
@@ -17,6 +18,7 @@ public class SpawnManager : MonoBehaviour
         {
             _spawnableCounts.Add(spawnInfo.prefab, 0);
         }
+        _player = FindObjectOfType<EthanPlayerMovement>().transform;
     }
 
 
@@ -58,10 +60,11 @@ public class SpawnManager : MonoBehaviour
     private void Spawn()
     {
         SpawnInfo spawnInfo = GetSpawnable();
-        GameObject instance = Instantiate(spawnInfo.prefab, GetSpawnPosition(), Quaternion.identity);
+        Vector3 spawnPosition = GetSpawnPosition();
+        GameObject instance = Instantiate(spawnInfo.prefab, spawnPosition, Quaternion.LookRotation(_player.position - spawnPosition, Vector3.up));
         instance.transform.parent = transform;
-        _spawnableCounts[spawnInfo.prefab]++;
-        instance.GetComponent<Health>().OnDeath += () => _spawnableCounts[spawnInfo.prefab]--;
+        // _spawnableCounts[spawnInfo.prefab]++;
+        // instance.GetComponent<Health>().OnDeath += () => _spawnableCounts[spawnInfo.prefab]--;
         _spawnTimer = spawnInfo.spawnInterval / Mathf.Pow(_intensityRate, _gameManager.TimeElapsed);
     }
 }

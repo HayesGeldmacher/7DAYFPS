@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class SnakeHead : SnakeSegment
@@ -23,10 +25,11 @@ public class SnakeHead : SnakeSegment
     private void Start()
     {
         InitializePath();
-        Target = GameObject.FindObjectOfType<EthanPlayerMovement>().transform;
-        _noiseOffset = Random.Range(0f, 100f);
-        _attackTimer = MeanTimeBetweenAttacks + Random.Range(-AttackTimeVariance, AttackTimeVariance);
+        Target = FindObjectOfType<EthanPlayerMovement>().transform;
+        _noiseOffset = UnityEngine.Random.Range(0f, 100f);
+        _attackTimer = MeanTimeBetweenAttacks + UnityEngine.Random.Range(-AttackTimeVariance, AttackTimeVariance);
         GetComponent<Health>().CurrentHealth = 1;
+        SetSpeed(NormalSpeed);
     }
 
     private void Update()
@@ -53,8 +56,8 @@ public class SnakeHead : SnakeSegment
             float ceiling = Target.position.y + DesiredHeight;
 
             // add up velocity based on distance to floor and ceiling
-            desiredVelocity += Vector3.up / Mathf.Pow(transform.position.y - floor, 2) * CorrectionStrength;
-            desiredVelocity += Vector3.down / Mathf.Pow(transform.position.y - ceiling, 2) * CorrectionStrength;
+            desiredVelocity += Vector3.up / Mathf.Pow(transform.position.y - floor + 1e3f, 2) * CorrectionStrength;
+            desiredVelocity += Vector3.down / Mathf.Pow(transform.position.y - ceiling + 1e3f, 2) * CorrectionStrength;
 
             // Update position and rotation based on desired velocity
             transform.rotation = Quaternion.LookRotation(desiredVelocity, Vector3.up);
@@ -95,7 +98,7 @@ public class SnakeHead : SnakeSegment
         }
 
         Attacking = false;
-        _attackTimer = MeanTimeBetweenAttacks + Random.Range(-AttackTimeVariance, AttackTimeVariance);
+        _attackTimer = MeanTimeBetweenAttacks + UnityEngine.Random.Range(-AttackTimeVariance, AttackTimeVariance);
         
         yield return new WaitForSeconds(1f);
 

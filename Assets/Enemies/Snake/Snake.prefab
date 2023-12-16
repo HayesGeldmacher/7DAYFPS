@@ -2867,6 +2867,10 @@ PrefabInstance:
       propertyPath: ParentSegment
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3083274699742737641, guid: faa29465fdc63df4197942898fd0d437, type: 3}
+      propertyPath: PathResolution
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6979525804188328449, guid: faa29465fdc63df4197942898fd0d437, type: 3}
       propertyPath: m_Name
       value: Snake Head
