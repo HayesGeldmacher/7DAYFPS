@@ -131,7 +131,7 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        if (_currentEnergy <= 0) yield break;
+        if (_currentEnergy < _energyCostDash * _dashDuration) yield break;
 
         Dashing = true;
         Vector3 input = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
