@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cicada : MonoBehaviour
+public class Wolf : MonoBehaviour
 {
     [SerializeField] private float _speed = 1f;
     [SerializeField] private float _cohesionRadius = 5f;
@@ -18,14 +18,14 @@ public class Cicada : MonoBehaviour
     
     void Start()
     {
-        _target = FindObjectOfType<EthanPlayerMovement>().transform;
+        _target = GameObject.FindObjectOfType<EthanPlayerMovement>().transform;
         _animator.Play(_animator.GetCurrentAnimatorClipInfo(0)[0].clip.name, 0, Random.Range(0f, 1f));
     }
 
     void Update()
     {
-        // Get all other cicadas
-        Cicada[] cicadas = FindObjectsOfType<Cicada>();
+        // Get all other wolfs
+        Wolf[] wolfs = FindObjectsOfType<Wolf>();
         
         // do boids
         Vector3 cohesion = Vector3.zero;
@@ -35,24 +35,24 @@ public class Cicada : MonoBehaviour
         int separationCount = 0;
         int alignmentCount = 0;
 
-        foreach (Cicada cicada in cicadas)
+        foreach (Wolf wolf in wolfs)
         {
-            if (cicada != this)
+            if (wolf != this)
             {
-                float distance = Vector3.Distance(transform.position, cicada.transform.position);
+                float distance = Vector3.Distance(transform.position, wolf.transform.position);
                 if (distance < _cohesionRadius)
                 {
-                    cohesion += cicada.transform.position;
+                    cohesion += wolf.transform.position;
                     cohesionCount++;
                 }
                 if (distance < _separationRadius)
                 {
-                    separation += transform.position - cicada.transform.position;
+                    separation += transform.position - wolf.transform.position;
                     separationCount++;
                 }
                 if (distance < _alignmentRadius)
                 {
-                    alignment += cicada._velocity;
+                    alignment += wolf._velocity;
                     alignmentCount++;
                 }
             }
@@ -89,6 +89,7 @@ public class Cicada : MonoBehaviour
 
         // apply forces
         _velocity += cohesion + separation + alignment;
+        _velocity.y = 0;
         _velocity = Vector3.ClampMagnitude(_velocity, _speed);
         transform.position += _velocity * Time.deltaTime;
         transform.rotation = Quaternion.LookRotation(_target.position - transform.position, Vector3.up);
