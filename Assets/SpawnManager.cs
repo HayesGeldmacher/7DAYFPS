@@ -6,6 +6,7 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private List<SpawnInfo> _spawnables;
     private Dictionary<GameObject, int> _spawnableCounts = new Dictionary<GameObject, int>();
+    [SerializeField] private float _intensityRate = 1.01f;
     private float _spawnTimer = 0f;
     private GameManager _gameManager;
 
@@ -41,14 +42,7 @@ public class SpawnManager : MonoBehaviour
             current += spawnInfo.spawnChance;
             if (random < current)
             {
-                if (_spawnableCounts[spawnInfo.prefab] < spawnInfo.maxSpawnCount)
-                {
-                    return spawnInfo;
-                }
-                else
-                {
-                    return GetSpawnable();
-                }
+                return spawnInfo;
             }
         }
 
@@ -68,7 +62,7 @@ public class SpawnManager : MonoBehaviour
         instance.transform.parent = transform;
         _spawnableCounts[spawnInfo.prefab]++;
         instance.GetComponent<Health>().OnDeath += () => _spawnableCounts[spawnInfo.prefab]--;
-        _spawnTimer = spawnInfo.spawnInterval;
+        _spawnTimer = spawnInfo.spawnInterval / Mathf.Pow(_intensityRate, _gameManager.TimeElapsed);
     }
 }
 

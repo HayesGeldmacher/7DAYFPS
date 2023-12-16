@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-     private float _timeElapsed;
+    [SerializeField] private TMP_Text _timeText;
+    public float TimeElapsed { get; private set; } = 0f;
     
     
 
     // Update is called once per frame
     void Update()
     {
-        _timeElapsed += Time.deltaTime;
+        TimeElapsed += Time.deltaTime;
+        _timeText.text = TimeElapsed.ToString("F2");
     }
 }
