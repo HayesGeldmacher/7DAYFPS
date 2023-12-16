@@ -3042,8 +3042,8 @@ MonoBehaviour:
   _jumpCooldown: 0.1
   _maxEnergy: 100
   _currentEnergy: 100
-  _energyCostDash: 5
-  _energyCostIdle: 1
+  _energyCostDash: 15
+  _energyCostIdle: -1
   _energyCostBoost: 4
   _energyText: {fileID: 1977297011}
   Velocity: {x: 0, y: 0, z: 0}

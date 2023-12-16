@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 728853056286274686}
   - component: {fileID: 6804398895226534988}
   - component: {fileID: 4198105487658369702}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3083274699742737641}
   - component: {fileID: 253009110317967309}
   - component: {fileID: 2805966141452122667}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Snake Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,3 +219,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnCorpse: 1
   _corpse: {fileID: 9219742183130116731, guid: d4022c58ae02fcc4ba3f2eaada8988d0, type: 3}
+  _playAudio: 0
+  _audioEffect: {fileID: 0}

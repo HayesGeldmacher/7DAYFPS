@@ -343,6 +343,50 @@ Transform:
   m_Father: {fileID: 5664644575200748250}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3348766252093584165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3791656567145998726}
+  - component: {fileID: 7832891915355410586}
+  m_Layer: 12
+  m_Name: Separation Hit box
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3791656567145998726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348766252093584165}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4638115147513622151}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &7832891915355410586
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348766252093584165}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3414233564771315325
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,11 +429,11 @@ GameObject:
   - component: {fileID: 4638115147513622151}
   - component: {fileID: 4207174294683818482}
   - component: {fileID: 4385200402017914877}
-  - component: {fileID: 1345485226294485718}
   - component: {fileID: 6465815241758761043}
   - component: {fileID: 5017161644557738116}
   - component: {fileID: 1761726284271286279}
   - component: {fileID: 7505622556544694315}
+  - component: {fileID: 427655964694614289}
   m_Layer: 10
   m_Name: BigWolf
   m_TagString: Untagged
@@ -409,6 +453,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5664644575200748250}
+  - {fileID: 3791656567145998726}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -440,29 +485,8 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
+  m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &1345485226294485718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4638115147513622150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f168b220af2a2594a818bc6777f9ea60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 10
-  _cohesionRadius: 5
-  _separationRadius: 3
-  _alignmentRadius: 5
-  _cohesionWeight: 1
-  _separationWeight: 5
-  _alignmentWeight: 1
-  _randomWeight: 3
-  _animator: {fileID: 5032504947415939169}
 --- !u!114 &6465815241758761043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +549,21 @@ MonoBehaviour:
   _corpse: {fileID: 9219742183130116731, guid: d4022c58ae02fcc4ba3f2eaada8988d0, type: 3}
   _playAudio: 0
   _audioEffect: {fileID: 0}
+--- !u!114 &427655964694614289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4638115147513622150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53778f952289a2441b10621d7b1e5751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  _randomWeight: 3
+  _y: 1
 --- !u!1 &4714975388152374778
 GameObject:
   m_ObjectHideFlags: 0
