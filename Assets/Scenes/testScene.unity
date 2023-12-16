@@ -425,7 +425,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177351110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -53.75836, y: 33.28137, z: 14.394773}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -775,6 +775,10 @@ PrefabInstance:
     - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_Name
       value: Cicada (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3226812604768763539, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_RootOrder
@@ -1142,6 +1146,10 @@ PrefabInstance:
     - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_Name
       value: Cicada (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3226812604768763539, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_RootOrder
@@ -1818,6 +1826,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake
       objectReference: {fileID: 0}
+    - target: {fileID: 2980876076545208341, guid: 6f8d8b9057f980e43bd01dcbccd6bc3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2980876076545208346, guid: 6f8d8b9057f980e43bd01dcbccd6bc3f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -2128,6 +2140,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2980876076545208341, guid: 6f8d8b9057f980e43bd01dcbccd6bc3f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2980876076545208346, guid: 6f8d8b9057f980e43bd01dcbccd6bc3f, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -2331,6 +2347,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BigWolf (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4638115147513622150, guid: 8c3c3acabc1df5349b73717b6ed13b87, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4638115147513622151, guid: 8c3c3acabc1df5349b73717b6ed13b87, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -2391,6 +2411,10 @@ PrefabInstance:
     - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_Name
       value: Cicada (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3226812604768763539, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_RootOrder
@@ -3032,6 +3056,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cicada
       objectReference: {fileID: 0}
+    - target: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3226812604768763539, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
       propertyPath: m_RootOrder
       value: 10
@@ -3322,6 +3350,62 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946210818}
   m_CullTransparentMesh: 1
+--- !u!1 &1967241393
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1967241395}
+  - component: {fileID: 1967241394}
+  m_Layer: 0
+  m_Name: SpawnManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1967241394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967241393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cab0bc82ceea884db632e55245aca0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnables:
+  - prefab: {fileID: 2980876076545208341, guid: 6f8d8b9057f980e43bd01dcbccd6bc3f, type: 3}
+    spawnChance: 0.1
+    spawnInterval: 10
+    maxSpawnCount: 5
+  - prefab: {fileID: 4638115147513622150, guid: 8c3c3acabc1df5349b73717b6ed13b87, type: 3}
+    spawnChance: 0.3
+    spawnInterval: 5
+    maxSpawnCount: 10
+  - prefab: {fileID: 2946864632632284016, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
+    spawnChance: 0.6
+    spawnInterval: 1
+    maxSpawnCount: 30
+--- !u!4 &1967241395
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967241393}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1977297009
 GameObject:
   m_ObjectHideFlags: 0
@@ -3858,6 +3942,10 @@ PrefabInstance:
     - target: {fileID: 4638115147513622150, guid: 8c3c3acabc1df5349b73717b6ed13b87, type: 3}
       propertyPath: m_Name
       value: BigWolf
+      objectReference: {fileID: 0}
+    - target: {fileID: 4638115147513622150, guid: 8c3c3acabc1df5349b73717b6ed13b87, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4638115147513622151, guid: 8c3c3acabc1df5349b73717b6ed13b87, type: 3}
       propertyPath: m_RootOrder
