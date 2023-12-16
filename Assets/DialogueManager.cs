@@ -8,8 +8,9 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentences;
     public TMP_Text DiaText;
     DialogueTrigger currentTrigger;
-    public Animator anim;
-
+    [SerializeField] private Animator _textAnim;
+    [SerializeField] private Animator _hazardAnim;
+    [SerializeField] private float waitTime;
     [SerializeField] private introManager intro;
 
     void Start()
@@ -23,7 +24,6 @@ public class DialogueManager : MonoBehaviour
     {
         currentTrigger = trigger;
         Debug.Log("Starting Conversation with" + dialogue.name);
-        //anim.SetBool("active", true);
 
         sentences.Clear();
 
@@ -53,16 +53,17 @@ public class DialogueManager : MonoBehaviour
 
     public void EndDialogue()
     {
-
-        intro.LoadScene();
+        StartCoroutine(EndOfDialogue());
         
-        Debug.Log("End of Conversation");
-        //anim.SetBool("active", false);
-        if (currentTrigger)
-        {
-            currentTrigger.hasStarted = false;
+    }
 
-        }
+    private IEnumerator EndOfDialogue()
+    {
+        _textAnim.SetTrigger("fade");
+        _hazardAnim.SetTrigger("fade");
+        yield return new WaitForSeconds(waitTime);
+        intro.LoadScene();
+
     }
 
     public IEnumerator EndDialogueTimer(float time)
