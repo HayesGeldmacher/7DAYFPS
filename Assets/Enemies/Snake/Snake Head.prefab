@@ -221,3 +221,5 @@ MonoBehaviour:
   _corpse: {fileID: 9219742183130116731, guid: d4022c58ae02fcc4ba3f2eaada8988d0, type: 3}
   _playAudio: 0
   _audioEffect: {fileID: 0}
+  _canSlow: 1
+  _slowTime: 0.8
