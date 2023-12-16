@@ -19,7 +19,7 @@ public class audioRandomizer : MonoBehaviour
         SoundManager();
     }
 
-    void SoundManager()
+    private void SoundManager()
     {
         //randomly play the shotgun audio at a different sound and pitch
         _audio = GetComponent<AudioSource>();

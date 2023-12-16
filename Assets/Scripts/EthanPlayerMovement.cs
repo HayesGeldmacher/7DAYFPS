@@ -14,6 +14,7 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _dashAcceleration = 20f;
     [SerializeField] private float _dashDuration = .25f;
     [SerializeField] private float _dashCooldown = .25f;
+    [SerializeField] private AudioSource _dashSound;
     [Header("Jump")]
     [SerializeField] private float _jumpVelocity = 10f;
     [SerializeField] private float _boostVelocity = 10f;
@@ -27,6 +28,11 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _energyCostIdle = 1;
     [SerializeField] private float _energyCostBoost = 4;
     [SerializeField] private TMP_Text  _energyText;
+    [Header("Audio")]
+    [SerializeField] private float _minSoundVolume = 0.8f;
+    [SerializeField] private float _maxSoundVolume = 0.12f;
+    [SerializeField] private float _minPitch = 0.8f;
+    [SerializeField] private float _maxPitch = 1.2f;
 
 
     public Vector3 Velocity = Vector3.zero;
@@ -133,6 +139,7 @@ public class EthanPlayerMovement : MonoBehaviour
     {
         if (_currentEnergy < _energyCostDash * _dashDuration) yield break;
 
+        SoundManager(_dashSound);
         Dashing = true;
         Vector3 input = transform.forward * Input.GetAxisRaw("Vertical") + transform.right * Input.GetAxisRaw("Horizontal");
         if (input.magnitude > .1f)
@@ -151,5 +158,20 @@ public class EthanPlayerMovement : MonoBehaviour
         //this is where the player will transform from aerial to turret mode!
         yield return new WaitForSeconds(time);
         Debug.Log("Transformed");
+    }
+
+
+
+    private void SoundManager(AudioSource _audio)
+    {
+        //randomly play sound at different pitch and volume
+
+
+        float randomPitch = Random.Range(_minPitch, _maxPitch);
+        float randomVolume = Random.Range(_minSoundVolume, _maxSoundVolume);
+
+        _audio.pitch = randomPitch;
+        _audio.volume = randomVolume;
+        _audio.Play();
     }
 }

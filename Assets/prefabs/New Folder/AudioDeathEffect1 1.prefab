@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6872875565808705008}
   - component: {fileID: 5050859346764766743}
   m_Layer: 0
-  m_Name: AudioDeathEffect1
+  m_Name: AudioDeathEffect1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _clips:
-  - {fileID: 8300000, guid: 9a8613a15daa94348972a02ed68f0f19, type: 3}
   - {fileID: 8300000, guid: c4a0f65312e512a45a8002c177f13ce1, type: 3}
   _minSoundVolume: 0.8
   _maxSoundVolume: 0.12
