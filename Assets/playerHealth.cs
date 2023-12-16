@@ -6,8 +6,12 @@ using TMPro;
 public class playerHealth : MonoBehaviour
 {
     [SerializeField] private TMP_Text _healthText;
+    [SerializeField] private TMP_Text _percentageText;
     [SerializeField] private Animator _healthAnimator;
     [SerializeField] private Health _playerHealth;
+    private Color _originalColor;
+    private float _actualHealth;
+    private float _displayedHealth;
 
     private void OnEnable()
     {
@@ -23,13 +27,23 @@ public class playerHealth : MonoBehaviour
 
     private void Start()
     {
-        _healthText.text = _playerHealth.CurrentHealth.ToString();
+        _actualHealth = _playerHealth.CurrentHealth;
+        _healthText.text = _actualHealth.ToString();
+        _originalColor = _healthText.color;
+    }
+    
+    private void Update()
+    {
+        _displayedHealth = Mathf.Lerp(_displayedHealth, _actualHealth, Time.deltaTime * 5f);
+        _healthText.text = Mathf.RoundToInt(_displayedHealth).ToString();
     }
 
     private void DamageUpdateText(float oldHealth, float newHealth)
     {  
         //Sets the health UI to reflect playerHealth
-        _healthText.text = newHealth.ToString();
+        _actualHealth = newHealth;
+        StopAllCoroutines();
+        StartCoroutine(FlashHealth());
         _healthAnimator.SetTrigger("hurt");
     }
 
@@ -39,5 +53,15 @@ public class playerHealth : MonoBehaviour
         Debug.Log("playerDied!");
     }
 
- 
+    private IEnumerator FlashHealth()
+    {
+        _healthText.color = _originalColor;
+        _percentageText.color = _originalColor;
+        yield return new WaitForSeconds(0.1f);
+        _healthText.color = Color.red;
+        _percentageText.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        _healthText.color = _originalColor;
+        _percentageText.color = _originalColor;
+    }
 }

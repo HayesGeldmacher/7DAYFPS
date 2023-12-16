@@ -3165,6 +3165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthText: {fileID: 1426757961}
+  _percentageText: {fileID: 797478518}
   _healthAnimator: {fileID: 1680541696}
   _playerHealth: {fileID: 1757013580}
 --- !u!136 &1757013585
