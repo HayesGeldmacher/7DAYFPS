@@ -104,6 +104,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndGame()
     {
         _audio.Play();
+        _hazardSprite.SetTrigger("fade out");
+        _deathScreen.SetTrigger("fade out");
         yield return new WaitForSeconds(2f);
         Debug.Log("Game Over");
         SceneManager.LoadScene("testScene");
