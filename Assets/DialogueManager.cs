@@ -14,6 +14,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private introManager intro;
     [SerializeField] private AudioSource _finalAudio;
     [SerializeField] private AudioSource _confirmAudio;
+    private bool _isStarting = false;
 
 
     void Start()
@@ -36,24 +37,30 @@ public class DialogueManager : MonoBehaviour
             sentences.Enqueue(sentence);
         }
 
+     
         DisplayNextSentence();
 
     }
 
     public void DisplayNextSentence()
     {
-        _confirmAudio.Play();
-        
-        if (sentences.Count == 0)
+        if (!_isStarting)
         {
-            EndDialogue();
-            return;
+
+            _confirmAudio.Play();
+        
+            if (sentences.Count == 0)
+            {
+                EndDialogue();
+                return;
+            }
+
+            //Takes the next-added sentence out of the queue and loads it into text box
+            string sentence = sentences.Dequeue();
+            DiaText.text = sentence;
+            Debug.Log(sentence);
         }
 
-        //Takes the next-added sentence out of the queue and loads it into text box
-        string sentence = sentences.Dequeue();
-        DiaText.text = sentence;
-        Debug.Log(sentence);
     }
 
     public void EndDialogue()
@@ -64,11 +71,20 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator EndOfDialogue()
     {
-        _finalAudio.Play();
-        _textAnim.SetTrigger("fade");
-        _hazardAnim.SetTrigger("fade");
-        yield return new WaitForSeconds(waitTime);
-        intro.LoadScene();
+        if (!_isStarting)
+        {
+            _isStarting = true;
+            _finalAudio.Play();
+            _textAnim.SetTrigger("fade");
+            _hazardAnim.SetTrigger("fade");
+            yield return new WaitForSeconds(waitTime);
+            intro.LoadScene();
+
+        }
+        else
+        {
+
+        }
 
     }
 

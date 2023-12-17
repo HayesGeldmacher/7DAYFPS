@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _timeText;
     [SerializeField] private Animator _deathScreen;
+    [SerializeField] private GameObject _deathImage;
     [SerializeField] private Health _playerHealth;
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
@@ -45,6 +46,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlayerDied)
+        {
+            if (Input.anyKeyDown)
+            {
+                StartCoroutine(EndGame());
+            }
+        }
+        
         if (PlayerDied) return;
 
         TimeElapsed += Time.deltaTime;
@@ -80,15 +89,16 @@ public class GameManager : MonoBehaviour
         //this is where the player will die!
         Debug.Log("playerDied!");
         PlayerDied = true;
-        StartCoroutine(EndGame());
+        _deathImage.SetActive(true);
+        _deathScreen.SetTrigger("fade");
     }
 
     private IEnumerator EndGame()
     {
-        _deathScreen.SetTrigger("fade");
+
         yield return new WaitForSeconds(2f);
         Debug.Log("Game Over");
         SceneManager.LoadScene("introScreen");
-        
+
     }
 }
