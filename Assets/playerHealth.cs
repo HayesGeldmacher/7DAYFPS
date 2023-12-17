@@ -36,7 +36,7 @@ public class playerHealth : MonoBehaviour
     private void Update()
     {
         _displayedHealth = Mathf.Lerp(_displayedHealth, _actualHealth, Time.deltaTime * 5f);
-        _healthText.text = Mathf.RoundToInt(_displayedHealth).ToString();
+        _healthText.text = (Mathf.RoundToInt(_displayedHealth).ToString() + "%");
     }
 
     private void DamageUpdateText(float oldHealth, float newHealth)
