@@ -11,13 +11,14 @@ public class DealPlayerDamage : MonoBehaviour
 
     private void Update()
     {
-        if (_damageTimer > 0)
-            _damageTimer -= Time.deltaTime;
+        // if (_damageTimer > 0)
+        _damageTimer -= Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (_damageTimer > 0) return;
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
 
         other.GetComponent<Health>()?.TakeDamage(_damage);
 
@@ -27,6 +28,7 @@ public class DealPlayerDamage : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (_damageTimer > 0) return;
+        if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
 
         other.GetComponent<Health>()?.TakeDamage(_damage);
 
