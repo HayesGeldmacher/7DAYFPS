@@ -8,6 +8,7 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private TMP_Text _healthText;
     [SerializeField] private TMP_Text _percentageText;
     [SerializeField] private Animator _healthAnimator;
+    [SerializeField] private AudioSource _deathAudio;
     [SerializeField] private Health _playerHealth;
     private Color _originalColor;
     private float _actualHealth;
@@ -35,7 +36,7 @@ public class playerHealth : MonoBehaviour
     private void Update()
     {
         _displayedHealth = Mathf.Lerp(_displayedHealth, _actualHealth, Time.deltaTime * 5f);
-        _healthText.text = Mathf.RoundToInt(_displayedHealth).ToString();
+        _healthText.text = (Mathf.RoundToInt(_displayedHealth).ToString() + "%");
     }
 
     private void DamageUpdateText(float oldHealth, float newHealth)
@@ -51,6 +52,12 @@ public class playerHealth : MonoBehaviour
     {
         //this is where the player will die!
         Debug.Log("playerDied!");
+        _deathAudio.Play();
+        Transform _cam = Camera.main.transform;
+        _cam.SetParent(null);
+        Rigidbody _rigid = _cam.gameObject.AddComponent<Rigidbody>();
+        Vector3 _direction = new Vector3(10, 10, 10);
+        _rigid.velocity = (_direction * 10);
     }
 
     private IEnumerator FlashHealth()

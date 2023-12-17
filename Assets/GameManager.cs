@@ -7,13 +7,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _timeText;
+    [SerializeField] private TMP_Text _endScoreText;
     [SerializeField] private Animator _deathScreen;
+    [SerializeField] private Animator _hazardSprite;
     [SerializeField] private GameObject _deathImage;
     [SerializeField] private Health _playerHealth;
+    [SerializeField] private AudioSource _audio;
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
     public float TimeElapsed { get; private set; } = 0f;
     public bool PlayerDied { get; private set; } = false;
+    private bool hasPressedRespawn = false;
 
     #region Singleton
 
@@ -46,10 +50,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PlayerDied)
+        if (PlayerDied && !hasPressedRespawn)
         {
             if (Input.anyKeyDown)
             {
+                hasPressedRespawn = true;
                 StartCoroutine(EndGame());
             }
         }
@@ -91,14 +96,19 @@ public class GameManager : MonoBehaviour
         PlayerDied = true;
         _deathImage.SetActive(true);
         _deathScreen.SetTrigger("fade");
+        _hazardSprite.SetTrigger("fade");
+        float f = Mathf.Round(TimeElapsed * 10.0f) * 0.1f;
+        _endScoreText.text = f.ToString();
     }
 
     private IEnumerator EndGame()
     {
-
+        _audio.Play();
+        _hazardSprite.SetTrigger("fade out");
+        _deathScreen.SetTrigger("fade out");
         yield return new WaitForSeconds(2f);
         Debug.Log("Game Over");
-        SceneManager.LoadScene("introScreen");
+        SceneManager.LoadScene("testScene");
 
     }
 }
