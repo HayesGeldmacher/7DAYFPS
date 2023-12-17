@@ -29,6 +29,8 @@ public class WeaponFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.instance.PlayerDied) return;
+
         if (Input.GetMouseButton(1) && _canFire){
             if (!_isFiring)
             {

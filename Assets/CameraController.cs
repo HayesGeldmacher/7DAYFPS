@@ -54,6 +54,8 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.instance.PlayerDied) return;
+
         float mouseX = Input.GetAxisRaw("Mouse X");
         float mouseY = Input.GetAxisRaw("Mouse Y");
 
