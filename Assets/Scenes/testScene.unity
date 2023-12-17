@@ -553,6 +553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeText: {fileID: 864106068}
+  _endScoreText: {fileID: 869968538}
   _deathScreen: {fileID: 504852604}
   _hazardSprite: {fileID: 67597935}
   _deathImage: {fileID: 504852602}
