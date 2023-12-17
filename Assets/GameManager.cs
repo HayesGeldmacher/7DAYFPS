@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _timeText;
     [SerializeField] private Animator _deathScreen;
+    [SerializeField] private Animator _hazardSprite;
     [SerializeField] private GameObject _deathImage;
     [SerializeField] private Health _playerHealth;
+    [SerializeField] private AudioSource _audio;
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
     public float TimeElapsed { get; private set; } = 0f;
@@ -91,14 +93,15 @@ public class GameManager : MonoBehaviour
         PlayerDied = true;
         _deathImage.SetActive(true);
         _deathScreen.SetTrigger("fade");
+        _hazardSprite.SetTrigger("fade");
     }
 
     private IEnumerator EndGame()
     {
-
+        _audio.Play();
         yield return new WaitForSeconds(2f);
         Debug.Log("Game Over");
-        SceneManager.LoadScene("introScreen");
+        SceneManager.LoadScene("testScene");
 
     }
 }
