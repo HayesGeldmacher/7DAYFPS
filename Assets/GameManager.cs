@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _timeText;
+    [SerializeField] private Animator _deathScreen;
     [SerializeField] private Health _playerHealth;
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator EndGame()
     {
+        _deathScreen.SetTrigger("fade");
         yield return new WaitForSeconds(2f);
         Debug.Log("Game Over");
         SceneManager.LoadScene("introScreen");
