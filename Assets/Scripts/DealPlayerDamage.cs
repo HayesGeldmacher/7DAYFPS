@@ -24,4 +24,13 @@ public class DealPlayerDamage : MonoBehaviour
         _damageTimer = _damageInterval;
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (_damageTimer > 0) return;
+
+        other.GetComponent<Health>()?.TakeDamage(_damage);
+
+        _damageTimer = _damageInterval;
+    }
+
 }
