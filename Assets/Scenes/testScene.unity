@@ -418,6 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timeText: {fileID: 864106068}
+  _playerHealth: {fileID: 1757013580}
 --- !u!4 &177351112
 Transform:
   m_ObjectHideFlags: 0
@@ -1049,7 +1050,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_Antialiasing: 1
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -3079,7 +3080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea69922cfa8775d49a87b0b4f5bd849b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 1
   _currentHealth: 0
   _isDead: 0
 --- !u!23 &1757013581

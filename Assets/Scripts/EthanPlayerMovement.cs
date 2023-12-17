@@ -53,6 +53,8 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.instance.PlayerDied) return;
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 

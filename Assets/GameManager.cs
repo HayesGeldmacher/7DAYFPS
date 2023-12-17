@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _timeText;
+    [SerializeField] private Health _playerHealth;
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
     public float TimeElapsed { get; private set; } = 0f;
+    public bool PlayerDied { get; private set; } = false;
 
     #region Singleton
 
@@ -27,10 +30,22 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    private void OnEnable()
+    {
+        _playerHealth.OnDeath += OnDeathPlayer;
+    }
+
+    private void OnDisable()
+    {
+        _playerHealth.OnDeath -= OnDeathPlayer;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
+        if (PlayerDied) return;
+
         TimeElapsed += Time.deltaTime;
         _timeText.text = TimeElapsed.ToString("F2");
 
@@ -57,5 +72,21 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.1f);
 
+    }
+
+    private void OnDeathPlayer()
+    {
+        //this is where the player will die!
+        Debug.Log("playerDied!");
+        PlayerDied = true;
+        StartCoroutine(EndGame());
+    }
+
+    private IEnumerator EndGame()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log("Game Over");
+        SceneManager.LoadScene("introScreen");
+        
     }
 }
