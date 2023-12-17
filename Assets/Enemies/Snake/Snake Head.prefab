@@ -219,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnCorpse: 1
   _corpse: {fileID: 9219742183130116731, guid: d4022c58ae02fcc4ba3f2eaada8988d0, type: 3}
-  _playAudio: 0
-  _audioEffect: {fileID: 0}
+  _playAudio: 1
+  _audioEffect: {fileID: 6872875565808705009, guid: 4344b4fc0a927fe429a966916852026a, type: 3}
   _canSlow: 1
   _slowTime: 0.8

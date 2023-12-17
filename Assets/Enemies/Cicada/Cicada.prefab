@@ -116,8 +116,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spawnCorpse: 1
   _corpse: {fileID: 9219742183130116731, guid: d4022c58ae02fcc4ba3f2eaada8988d0, type: 3}
-  _playAudio: 0
-  _audioEffect: {fileID: 0}
+  _playAudio: 1
+  _audioEffect: {fileID: 6872875565808705009, guid: 9beb183729d268340aa90a09f486c42d, type: 3}
+  _canSlow: 0
+  _slowTime: 0
 --- !u!114 &2963739608248309988
 MonoBehaviour:
   m_ObjectHideFlags: 0
