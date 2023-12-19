@@ -46,9 +46,23 @@ public class EthanPlayerMovement : MonoBehaviour
     private CharacterController _controller;
 
 
+    #region Singleton
+
+    public static EthanPlayerMovement instance;
+
+    #endregion
+
+
     private void Awake()
     {
         _controller = GetComponent<CharacterController>();
+        if (instance != null)
+        {
+            Debug.LogWarning("More than one instance of inventory present!! NOT GOOD!");
+            return;
+        }
+
+        instance = this;
     }
 
     private void Start()
