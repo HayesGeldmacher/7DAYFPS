@@ -10,9 +10,17 @@ public class LaserEnemy : MonoBehaviour
     [SerializeField] private float _rotationSpeed = 50f;
     [SerializeField] private float _damage = 15f;
     [SerializeField] private LayerMask _layerMask;
+    [Header("Sound Attributes")]
+    [SerializeField] private AudioSource _chargeUp;
+    [SerializeField] private AudioSource _blast;
+    [SerializeField] private bool _isBuilding;
+    [SerializeField] private float _pitchMin;
+    [SerializeField] private float _pitchMax;
+    [SerializeField] private float _pitchSpeed;
+
     private Vector3 _fireDirection;
     private bool _inRange = false;
-    private bool _canFire = true;
+    private bool _canFire = false;
 
     private Transform _player;
 
@@ -20,6 +28,8 @@ public class LaserEnemy : MonoBehaviour
     void Start()
     {
         _player = EthanPlayerMovement.instance.transform;
+        StartCoroutine(FireCoolDown()); 
+
 
     }
 
@@ -29,6 +39,7 @@ public class LaserEnemy : MonoBehaviour
         RangeUpdate();
         RotationUpdate();
         FireUpdate();
+        SoundUpdate();
     }
 
     private void RangeUpdate()
@@ -59,14 +70,28 @@ public class LaserEnemy : MonoBehaviour
 
     private void FireUpdate()
     {   
-        if( _inRange && _canFire)
+        if( _inRange)
         {
-            StartCoroutine(FireLaser(transform.forward));
+            if (_canFire)
+            {
+                StartCoroutine(FireLaser(transform.forward));
+                _isBuilding = false;
+            }
+
+            else
+            {
+                _isBuilding = true;
+            }
+        }
+        else
+        {
+            _isBuilding = false;
         }
     }
 
     private IEnumerator FireLaser(Vector3 currenRotation)
     {
+        _blast.Play();
         _canFire = false;
         _fireDirection = currenRotation;
         yield return new WaitForSeconds(_firingDelay);
@@ -98,6 +123,30 @@ public class LaserEnemy : MonoBehaviour
     private void DealDamage()
     {
         _player.GetComponent<Health>()?.TakeDamage(_damage);
+    }
+
+    private void SoundUpdate()
+    {
+        if (_isBuilding)
+        {
+            if (_chargeUp.isPlaying)
+            {
+                _chargeUp.pitch += 1 * _pitchSpeed * Time.deltaTime;
+            }
+            else
+            {
+                _chargeUp.Play();
+                _chargeUp.pitch = _pitchMin;
+            }
+
+            _chargeUp.pitch = Mathf.Clamp(_chargeUp.pitch, _pitchMin, _pitchMax);
+            //continually up the pitch for as long as building!
+        }
+        else
+        {
+            _chargeUp.Stop();
+            _chargeUp.pitch = _pitchMin;
+        }
     }
 
 }
