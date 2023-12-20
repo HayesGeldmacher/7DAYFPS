@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LaserEnemy : MonoBehaviour
 {
+    [SerializeField] private GameObject _projectile;
+    [SerializeField] private Transform _fireLocation;
     [SerializeField] private float _firingRange = 50f;
     [SerializeField] private float _firingCoolDown = 4;
     [SerializeField] private float _firingDelay = 0.3f;
@@ -96,17 +98,8 @@ public class LaserEnemy : MonoBehaviour
         _fireDirection = currenRotation;
         yield return new WaitForSeconds(_firingDelay);
 
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, _fireDirection, out hit, _firingRange, _layerMask))
-        {
-            Debug.DrawRay(transform.position, _fireDirection * 10000, Color.yellow, 3);
-            Debug.Log("Did Hit");
-            DealDamage();
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, _fireDirection * 10000, Color.red, 3);
-        }
+        GameObject shotProjectile = Instantiate(_projectile, _fireLocation.position, Quaternion.identity);
+        shotProjectile.transform.rotation = Quaternion.LookRotation(currenRotation);
 
         StartCoroutine(FireCoolDown());
         Debug.Log("FIRED~~~");
