@@ -7,11 +7,13 @@ public class LaserEnemy : MonoBehaviour
     [SerializeField] private GameObject _projectile;
     [SerializeField] private Transform _fireLocation;
     [SerializeField] private float _firingRange = 50f;
-    [SerializeField] private float _firingCoolDown = 4;
+    [SerializeField] private float _minFiringCoolDown = 4;
+    [SerializeField] private float _maxFiringCoolDown = 9;
     [SerializeField] private float _firingDelay = 0.3f;
-    [SerializeField] private float _rotationSpeed = 50f;
+    [SerializeField] private float _buildUpTime = 0.3f;
     [SerializeField] private float _damage = 15f;
     [SerializeField] private LayerMask _layerMask;
+    private float _waitTime = 3;
     [Header("Sound Attributes")]
     [SerializeField] private AudioSource _chargeUp;
     [SerializeField] private AudioSource _blast;
@@ -77,13 +79,9 @@ public class LaserEnemy : MonoBehaviour
             if (_canFire)
             {
                 StartCoroutine(FireLaser(transform.forward));
-                _isBuilding = false;
             }
 
-            else
-            {
-                _isBuilding = true;
-            }
+          
         }
         else
         {
@@ -93,10 +91,13 @@ public class LaserEnemy : MonoBehaviour
 
     private IEnumerator FireLaser(Vector3 currenRotation)
     {
-        _blast.Play();
         _canFire = false;
+        _isBuilding = true;
+        yield return new WaitForSeconds(_buildUpTime);
         _fireDirection = currenRotation;
         yield return new WaitForSeconds(_firingDelay);
+        _blast.Play();
+        _isBuilding = false;
 
         GameObject shotProjectile = Instantiate(_projectile, _fireLocation.position, Quaternion.identity);
         shotProjectile.transform.rotation = Quaternion.LookRotation(currenRotation);
@@ -106,9 +107,12 @@ public class LaserEnemy : MonoBehaviour
     }
 
 
+
+
     private IEnumerator FireCoolDown()
     {
-        yield return new WaitForSeconds(_firingCoolDown);
+         _waitTime = Random.Range(_minFiringCoolDown, _maxFiringCoolDown);
+        yield return new WaitForSeconds(_waitTime);
         _canFire = true;
     }
 

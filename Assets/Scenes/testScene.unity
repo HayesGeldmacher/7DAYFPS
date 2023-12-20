@@ -402,8 +402,10 @@ MonoBehaviour:
   _projectile: {fileID: 5695636054378892765, guid: 3a2a35c349fac01479a192aae1d94928, type: 3}
   _fireLocation: {fileID: 5695636054378892753, guid: 3a2a35c349fac01479a192aae1d94928, type: 3}
   _firingRange: 400
-  _firingCoolDown: 4
+  _minFiringCoolDown: 4
+  _maxFiringCoolDown: 9
   _firingDelay: 0.05
+  _buildUpTime: 3
   _rotationSpeed: 50
   _damage: 15
   _layerMask:
@@ -413,8 +415,8 @@ MonoBehaviour:
   _blast: {fileID: 48977462}
   _isBuilding: 0
   _pitchMin: 0.8
-  _pitchMax: 3
-  _pitchSpeed: 0.5
+  _pitchMax: 3.5
+  _pitchSpeed: 0.6
 --- !u!82 &48977461
 AudioSource:
   m_ObjectHideFlags: 0
