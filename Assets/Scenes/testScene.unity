@@ -400,13 +400,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _projectile: {fileID: 5695636054378892765, guid: 3a2a35c349fac01479a192aae1d94928, type: 3}
-  _fireLocation: {fileID: 5695636054378892753, guid: 3a2a35c349fac01479a192aae1d94928, type: 3}
+  _fireLocation: {fileID: 569110795}
   _firingRange: 400
   _minFiringCoolDown: 4
   _maxFiringCoolDown: 9
   _firingDelay: 0.05
   _buildUpTime: 3
-  _rotationSpeed: 50
   _damage: 15
   _layerMask:
     serializedVersion: 2
@@ -2521,7 +2520,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2550,7 +2549,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -20.87703, y: 0, z: 118.32635, w: 0}
+  m_margin: {x: -53.65361, y: 0, z: 351.58432, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

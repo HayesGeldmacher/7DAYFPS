@@ -78,7 +78,7 @@ public class LaserEnemy : MonoBehaviour
         {
             if (_canFire)
             {
-                StartCoroutine(FireLaser(transform.forward));
+                StartCoroutine(FireLaser());
             }
 
           
@@ -89,18 +89,18 @@ public class LaserEnemy : MonoBehaviour
         }
     }
 
-    private IEnumerator FireLaser(Vector3 currenRotation)
+    private IEnumerator FireLaser()
     {
         _canFire = false;
         _isBuilding = true;
         yield return new WaitForSeconds(_buildUpTime);
-        _fireDirection = currenRotation;
+        _fireDirection = transform.forward;
         yield return new WaitForSeconds(_firingDelay);
         _blast.Play();
         _isBuilding = false;
 
         GameObject shotProjectile = Instantiate(_projectile, _fireLocation.position, Quaternion.identity);
-        shotProjectile.transform.rotation = Quaternion.LookRotation(currenRotation);
+        shotProjectile.transform.rotation = Quaternion.LookRotation(_fireDirection);
 
         StartCoroutine(FireCoolDown());
         Debug.Log("FIRED~~~");
