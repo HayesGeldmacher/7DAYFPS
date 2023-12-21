@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: introscreenMat 2
+  m_Name: introscreenMat 5
   m_Shader: {fileID: -6465566751694194690, guid: f8d58c4baa54552498a036b4478bfc49, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -89,7 +89,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_4fd90d0ce6d349c9a6400ec21704a612: 1
+    - Vector1_4fd90d0ce6d349c9a6400ec21704a612: 0.17
     - Vector1_ca2cb7ddd24a49599123b103fe4fb024: 1
     - Vector1_d67d01d0c52a41a3bba4ae6623a2473d: 10
     - _AlphaClip: 0
@@ -106,8 +106,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _Grid_Size: -118.98
-    - _Line_Width: 0.11
+    - _Grid_Size: -195.05
+    - _Line_Width: 0.36
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -123,7 +123,7 @@ Material:
     m_Colors:
     - Color_3b3d986372df4a22baf8901b28d1ccba: {r: 0, g: 0.7227263, b: 1, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.09019608, g: 0.67058825, b: 0.31764707, a: 1}
+    - _Color: {r: 0.090993196, g: 0.6698113, b: 0.3167181, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

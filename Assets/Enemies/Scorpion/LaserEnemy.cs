@@ -97,7 +97,7 @@ public class LaserEnemy : MonoBehaviour
         yield return new WaitForSeconds(_firingDelay);
         if (_inRange)
         {
-            _blast.Play();
+            BlastSound();
         }
         _isBuilding = false;
         _anim.SetTrigger("fire");
@@ -146,4 +146,9 @@ public class LaserEnemy : MonoBehaviour
         }
     }
 
+    private void BlastSound()
+    {
+        _blast.pitch = Random.Range(0.8f, 1.2f);
+        _blast.Play();
+    }
 }
