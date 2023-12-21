@@ -33,8 +33,6 @@ public class LaserEnemy : MonoBehaviour
     {
         _player = EthanPlayerMovement.instance.transform;
         StartCoroutine(FireCoolDown()); 
-
-
     }
 
     // Update is called once per frame
@@ -80,8 +78,6 @@ public class LaserEnemy : MonoBehaviour
             {
                 StartCoroutine(FireLaser());
             }
-
-          
         }
         else
         {
@@ -106,16 +102,12 @@ public class LaserEnemy : MonoBehaviour
         Debug.Log("FIRED~~~");
     }
 
-
-
-
     private IEnumerator FireCoolDown()
     {
          _waitTime = Random.Range(_minFiringCoolDown, _maxFiringCoolDown);
         yield return new WaitForSeconds(_waitTime);
         _canFire = true;
     }
-
 
     private void DealDamage()
     {
