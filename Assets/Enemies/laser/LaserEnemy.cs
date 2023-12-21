@@ -13,6 +13,7 @@ public class LaserEnemy : MonoBehaviour
     [SerializeField] private float _buildUpTime = 0.3f;
     [SerializeField] private float _damage = 15f;
     [SerializeField] private LayerMask _layerMask;
+    [SerializeField] private Animator _anim;
     private float _waitTime = 3;
     [Header("Sound Attributes")]
     [SerializeField] private AudioSource _chargeUp;
@@ -82,6 +83,7 @@ public class LaserEnemy : MonoBehaviour
         else
         {
             _isBuilding = false;
+            _anim.SetBool("isCharging", false);
         }
     }
 
@@ -89,11 +91,14 @@ public class LaserEnemy : MonoBehaviour
     {
         _canFire = false;
         _isBuilding = true;
+        _anim.SetBool("isCharging", true);
         yield return new WaitForSeconds(_buildUpTime);
         _fireDirection = transform.forward;
         yield return new WaitForSeconds(_firingDelay);
         _blast.Play();
         _isBuilding = false;
+        _anim.SetTrigger("fire");
+        _anim.SetBool("isCharging", false);
 
         GameObject shotProjectile = Instantiate(_projectile, _fireLocation.position, Quaternion.identity);
         shotProjectile.transform.rotation = Quaternion.LookRotation(_fireDirection);
