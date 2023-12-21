@@ -95,7 +95,10 @@ public class LaserEnemy : MonoBehaviour
         yield return new WaitForSeconds(_buildUpTime);
         _fireDirection = transform.forward;
         yield return new WaitForSeconds(_firingDelay);
-        _blast.Play();
+        if (_inRange)
+        {
+            _blast.Play();
+        }
         _isBuilding = false;
         _anim.SetTrigger("fire");
         _anim.SetBool("isCharging", false);
