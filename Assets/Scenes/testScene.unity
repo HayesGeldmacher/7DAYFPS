@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8f65e62f653b946ab46d5ddfc088ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 48977453}
+  _renderer: {fileID: 396937650}
   _shaderProperty: _Color
   _flashColor: {r: 1, g: 1, b: 1, a: 0}
   _flashTime: 0.1
@@ -1504,6 +1504,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 396094835}
   m_CullTransparentMesh: 1
+--- !u!137 &396937650 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 8417361359673230750, guid: 29d08098c436dd548a94ec2d8525e385, type: 3}
+  m_PrefabInstance: {fileID: 1085444435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &432598726 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 29d08098c436dd548a94ec2d8525e385, type: 3}
@@ -5022,7 +5027,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1967241394
 MonoBehaviour:
   m_ObjectHideFlags: 0
