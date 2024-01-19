@@ -10,6 +10,11 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private Animator _healthAnimator;
     [SerializeField] private AudioSource _deathAudio;
     [SerializeField] private Health _playerHealth;
+    [SerializeField] private Transform _shotGun;
+    [SerializeField] private Transform _rifle;
+    [SerializeField] private AudioSource _hurtSound;
+    [SerializeField] private Animator _hurtScreenAnim;
+
     private Color _originalColor;
     private float _actualHealth;
     private float _displayedHealth;
@@ -37,6 +42,12 @@ public class playerHealth : MonoBehaviour
     {
         _displayedHealth = Mathf.Lerp(_displayedHealth, _actualHealth, Time.deltaTime * 5f);
         _healthText.text = (Mathf.RoundToInt(_displayedHealth).ToString() + "%");
+
+        if(_playerHealth.CurrentHealth <= 5)
+        {
+            _hurtScreenAnim.SetTrigger("hurt");
+        }
+
     }
 
     private void DamageUpdateText(float oldHealth, float newHealth)
@@ -46,18 +57,29 @@ public class playerHealth : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(FlashHealth());
         _healthAnimator.SetTrigger("hurt");
+        _hurtScreenAnim.SetTrigger("hurt");
+        _hurtSound.Play();
     }
 
     private void OnDeathPlayer()
     {
         //this is where the player will die!
         Debug.Log("playerDied!");
+        if (_deathAudio.isPlaying == false)
+        {
         _deathAudio.Play();
+        }
+
+        Debug.Log("Played Death Audio!");
         Transform _cam = Camera.main.transform;
         _cam.SetParent(null);
+        _shotGun.SetParent(null);
+        _rifle.SetParent(null);
         Rigidbody _rigid = _cam.gameObject.AddComponent<Rigidbody>();
         Vector3 _direction = new Vector3(10, 10, 10);
-        _rigid.velocity = (_direction * 10);
+         _rigid.velocity = (Vector3.up * 2);
+        _rigid.angularVelocity = Vector3.right * 1.0f;
+        Destroy(transform.gameObject);
     }
 
     private IEnumerator FlashHealth()

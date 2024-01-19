@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TMP_Text _timeText;
     [SerializeField] private TMP_Text _endScoreText;
     [SerializeField] private Animator _deathScreen;
+    [SerializeField] private Animator _blackScreen;
     [SerializeField] private Animator _hazardSprite;
     [SerializeField] private GameObject _deathImage;
     [SerializeField] private Health _playerHealth;
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     public float TimeElapsed { get; private set; } = 0f;
     public bool PlayerDied { get; private set; } = false;
     private bool hasPressedRespawn = false;
+    [SerializeField] private AudioSource _beheadingSound;
 
     #region Singleton
 
@@ -92,22 +94,32 @@ public class GameManager : MonoBehaviour
     private void OnDeathPlayer()
     {
         //this is where the player will die!
-        Debug.Log("playerDied!");
+         _beheadingSound.Play();
+        StartCoroutine(DeathFadeIn());
+        
+    }
+    private IEnumerator DeathFadeIn()
+    {
+        yield return new WaitForSeconds(2f);
         PlayerDied = true;
+        Debug.Log("playerDied!");
         _deathImage.SetActive(true);
         _deathScreen.SetTrigger("fade");
         _hazardSprite.SetTrigger("fade");
         float f = Mathf.Round(TimeElapsed * 10.0f) * 0.1f;
+
         _endScoreText.text = f.ToString();
     }
 
     private IEnumerator EndGame()
     {
         _audio.Play();
-        _hazardSprite.SetTrigger("fade out");
+        _blackScreen.SetTrigger("fade");
+       _hazardSprite.SetTrigger("fade out");
         _deathScreen.SetTrigger("fade out");
         yield return new WaitForSeconds(2f);
         Debug.Log("Game Over");
+        yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene("testScene");
 
     }
