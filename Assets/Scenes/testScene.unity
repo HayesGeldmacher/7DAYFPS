@@ -465,7 +465,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &118954179
 RectTransform:
   m_ObjectHideFlags: 0
@@ -553,6 +553,7 @@ GameObject:
   - component: {fileID: 174399251}
   - component: {fileID: 174399253}
   - component: {fileID: 174399252}
+  - component: {fileID: 174399254}
   m_Layer: 5
   m_Name: reticle
   m_TagString: Untagged
@@ -567,11 +568,11 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174399250}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2071205745}
+  m_Father: {fileID: 619515932}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -617,6 +618,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174399250}
   m_CullTransparentMesh: 1
+--- !u!95 &174399254
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174399250}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7df4a7b801378824ba5a289d5290049f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &177351110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1594,6 +1614,7 @@ MonoBehaviour:
   _projSpawn: {fileID: 2055290854}
   _reticle: {fileID: 174399251}
   _fireAudio: {fileID: 455009133}
+  _reticleParentAnim: {fileID: 619515933}
   _minSoundVolume: 0.2
   _maxSoundVolume: 0.35
   _minPitch: 0.8
@@ -1935,7 +1956,7 @@ MonoBehaviour:
   maxReticleY: 20
   reticleAcceleration: 5
   reticleDecceleration: 5
-  Reticle: {fileID: 174399251}
+  Reticle: {fileID: 619515932}
   gun: {fileID: 1697612209}
   maxGunX: 1
   maxGunY: 1
@@ -2083,6 +2104,62 @@ PrefabInstance:
       objectReference: {fileID: 6872875565808705009, guid: 4344b4fc0a927fe429a966916852026a, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63b96e4be94a5d6408731d42d16e018d, type: 3}
+--- !u!1 &619515931
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619515932}
+  - component: {fileID: 619515933}
+  m_Layer: 5
+  m_Name: reticleParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &619515932
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619515931}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 174399251}
+  m_Father: {fileID: 2071205745}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &619515933
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619515931}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb82618798c684f45839e65852b93efe, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &674199287
 GameObject:
   m_ObjectHideFlags: 0
@@ -3035,7 +3112,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1149387902
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4104,6 +4181,7 @@ MonoBehaviour:
   _maxSoundVolume: 0.35
   _minPitch: 0.8
   _maxPitch: 1.2
+  _cursorAnim: {fileID: 174399254}
 --- !u!82 &1527439917
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5625,7 +5703,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 174399251}
+  - {fileID: 619515932}
   - {fileID: 118954179}
   - {fileID: 2100188677}
   m_Father: {fileID: 0}
@@ -5749,7 +5827,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2100188677
 RectTransform:
   m_ObjectHideFlags: 0

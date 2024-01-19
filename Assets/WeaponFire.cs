@@ -12,6 +12,8 @@ public class WeaponFire : MonoBehaviour
     [SerializeField] private Transform _projSpawn;
     [SerializeField] private Transform _reticle;
     [SerializeField] private AudioSource _fireAudio;
+    [SerializeField] private Animator _reticleParentAnim;
+
     [SerializeField] private float _minSoundVolume = 0.2f;
     [SerializeField] private float _maxSoundVolume = 0.35f;
     [SerializeField] private float _minPitch = 0.8f;
@@ -77,6 +79,7 @@ public class WeaponFire : MonoBehaviour
         Debug.Log("Fired!");
         _isFiring = true;
         _anim.SetBool("isFiring", true);
+        _reticleParentAnim.SetBool("spin", true);
     }
 
     void StopFiring()
@@ -84,6 +87,7 @@ public class WeaponFire : MonoBehaviour
         Debug.Log("Stopped Firing");
         _isFiring = false;
         _anim.SetBool("isFiring", false);
+        _reticleParentAnim.SetBool("spin", false);
     }
    
     //What actually fires the projectile when _isFiring = true

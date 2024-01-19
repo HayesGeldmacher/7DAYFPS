@@ -19,6 +19,7 @@ public class ShotGunFire : MonoBehaviour
     [SerializeField] private float _maxSoundVolume = 0.35f;
     [SerializeField] private float _minPitch = 0.8f;
     [SerializeField] private float _maxPitch = 1.2f;
+    [SerializeField] private Animator _cursorAnim;
 
     private float _fireCoolDownTime;
     private bool _canFire = true;
@@ -48,6 +49,7 @@ public class ShotGunFire : MonoBehaviour
     {
        
         _anim.SetTrigger("fire");
+        _cursorAnim.SetTrigger("fire");
         SoundManager();
        
         //slightly randomizing the number of shells that will spawn each fire
