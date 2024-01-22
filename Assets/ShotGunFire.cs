@@ -49,7 +49,6 @@ public class ShotGunFire : MonoBehaviour
     {
        
         _anim.SetTrigger("fire");
-        _cursorAnim.SetTrigger("fire");
         SoundManager();
        
         //slightly randomizing the number of shells that will spawn each fire
