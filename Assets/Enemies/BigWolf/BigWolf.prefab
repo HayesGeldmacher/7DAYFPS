@@ -551,6 +551,8 @@ MonoBehaviour:
   _audioEffect: {fileID: 6872875565808705009, guid: 9beb183729d268340aa90a09f486c42d, type: 3}
   _canSlow: 0
   _slowTime: 0
+  _canBloom: 0
+  _ragePoints: 5
 --- !u!114 &427655964694614289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,7 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53778f952289a2441b10621d7b1e5751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 15
   _randomWeight: 3
   _y: 1
 --- !u!1 &4714975388152374778

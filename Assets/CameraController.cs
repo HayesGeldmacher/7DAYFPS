@@ -7,8 +7,8 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private Transform _playerBody;
     [Header("Sensitivity")]
-    [SerializeField] private float _mouseSensitivityX = 1f;
-    [SerializeField] private float _mouseSensitivityY = 1f;
+    public float _mouseSensitivityX = 1f;
+    public float _mouseSensitivityY = 1f;
     [Header("Camera Tilt")]
     [SerializeField] private float _forwardCameraTilt = 1f;
     [SerializeField] private float _sideCameraTilt = 3f;

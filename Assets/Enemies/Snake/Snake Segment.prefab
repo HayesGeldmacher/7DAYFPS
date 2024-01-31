@@ -132,6 +132,8 @@ MonoBehaviour:
   _audioEffect: {fileID: 6872875565808705009, guid: 9beb183729d268340aa90a09f486c42d, type: 3}
   _canSlow: 0
   _slowTime: 0
+  _canBloom: 0
+  _ragePoints: 3
 --- !u!1001 &9108079829739917999
 PrefabInstance:
   m_ObjectHideFlags: 0

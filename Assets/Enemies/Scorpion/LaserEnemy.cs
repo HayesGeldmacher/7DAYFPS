@@ -26,6 +26,7 @@ public class LaserEnemy : MonoBehaviour
     private Vector3 _fireDirection;
     private bool _inRange = false;
     private bool _canFire = false;
+    private bool _soundRange = false;
 
     private Transform _player;
 
@@ -55,6 +56,15 @@ public class LaserEnemy : MonoBehaviour
         else
         {
             _inRange = false;
+        }
+
+        if(_distance <= _firingRange / 4)
+        {
+            _soundRange = true;
+        }
+        else
+        {
+            _soundRange = false;
         }
     }
 
@@ -124,31 +134,39 @@ public class LaserEnemy : MonoBehaviour
 
     private void SoundUpdate()
     {
-        if (_isBuilding)
+
+        if (_soundRange)
         {
-            if (_chargeUp.isPlaying)
+            if (_isBuilding)
             {
-                _chargeUp.pitch += 1 * _pitchSpeed * Time.deltaTime;
+                if (_chargeUp.isPlaying)
+                {
+                    _chargeUp.pitch += 1 * _pitchSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    _chargeUp.Play();
+                    _chargeUp.pitch = _pitchMin;
+                }
+
+                _chargeUp.pitch = Mathf.Clamp(_chargeUp.pitch, _pitchMin, _pitchMax);
+                //continually up the pitch for as long as building!
             }
             else
             {
-                _chargeUp.Play();
+                _chargeUp.Stop();
                 _chargeUp.pitch = _pitchMin;
             }
 
-            _chargeUp.pitch = Mathf.Clamp(_chargeUp.pitch, _pitchMin, _pitchMax);
-            //continually up the pitch for as long as building!
-        }
-        else
-        {
-            _chargeUp.Stop();
-            _chargeUp.pitch = _pitchMin;
-        }
+        }   
     }
 
     private void BlastSound()
     {
-        _blast.pitch = Random.Range(0.8f, 1.2f);
-        _blast.Play();
+        if(_soundRange)
+        {
+            _blast.pitch = Random.Range(0.8f, 1.2f);
+            _blast.Play();
+        }
     }
 }

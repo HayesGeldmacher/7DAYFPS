@@ -7,6 +7,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private List<SpawnInfo> _spawnables;
     private Dictionary<GameObject, int> _spawnableCounts = new Dictionary<GameObject, int>();
     [SerializeField] private float _intensityRate = 1.01f;
+    [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
     private float _spawnTimer = 0f;
     private GameManager _gameManager;
     private Transform _player;
@@ -53,8 +54,12 @@ public class SpawnManager : MonoBehaviour
 
     private Vector3 GetSpawnPosition()
     {
-        Vector2 random = Random.insideUnitCircle.normalized * 80f;
-        return new Vector3(random.x, 0f, random.y);
+        //Vector2 random = Random.insideUnitCircle.normalized * 80f;
+       // return new Vector3(random.x, 0f, random.y);
+
+        int random = Random.Range(0, spawnPoints.Count);
+        Transform spawnTrans = spawnPoints[random];
+        return spawnTrans.position;
     }
 
     private void Spawn()

@@ -86,6 +86,7 @@ public class EnemyProximity : MonoBehaviour
             _isDanger = true;
             DangerUpdate();
             _spriteAnim.SetBool("alert", true);
+            GameManager.instance.WatchOut();
         }
         else
         {

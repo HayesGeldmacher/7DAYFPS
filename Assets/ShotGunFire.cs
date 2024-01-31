@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShotGunFire : MonoBehaviour
 {
@@ -20,10 +21,29 @@ public class ShotGunFire : MonoBehaviour
     [SerializeField] private float _minPitch = 0.8f;
     [SerializeField] private float _maxPitch = 1.2f;
     [SerializeField] private Animator _cursorAnim;
+    [SerializeField] private Slider slider;
+
+    [SerializeField] private float _energyLimit;
+    [SerializeField] private float _currentEnergy;
+    [SerializeField] private float _overHeatTime;
+    [SerializeField] private AudioSource _reload;
+    [SerializeField] private GameObject _chains;
+    [SerializeField] private Animator _chainsAnim;
+
+    [SerializeField] private Animator _flashAnim;
 
     private float _fireCoolDownTime;
     private bool _canFire = true;
+    private bool _overHeating = false;
 
+    
+    void Start()
+    {
+        slider.maxValue = _energyLimit;
+        slider.minValue = 0;
+
+    }
+    
     // Update is called once per frame
     void Update()
     {
@@ -39,15 +59,56 @@ public class ShotGunFire : MonoBehaviour
             }
         }
         
-        if (Input.GetMouseButton(0) && _canFire)
+        if (Input.GetMouseButton(0) && _canFire && !_overHeating)
         {
-            FireProjectile();
+           if(_currentEnergy <= _energyLimit)
+            {
+                FireProjectile();
+                _currentEnergy += 1;
+            }
+            else
+            {
+                StartCoroutine(OverHeat());
+            }
+           
+        }
+
+        _currentEnergy -= Time.deltaTime * 0.7f;
+        _currentEnergy = Mathf.Clamp(_currentEnergy, 0, 100);
+
+        if (_overHeating)
+        {
+            slider.value = slider.maxValue;
+            _anim.SetBool("overHeating", true);
+        }
+        else
+        {
+
+            slider.value = Mathf.Lerp(slider.value, _currentEnergy, Time.deltaTime * 5);
+            _anim.SetBool("overHeating", false);
+
         }
     }
 
+    private IEnumerator OverHeat()
+    {
+        _overHeating = true;
+        _chains.SetActive(true);
+        _chainsAnim.SetTrigger("fadeIn");
+        _reload.Play();
+        yield return new WaitForSeconds(_overHeatTime);
+        _chainsAnim.SetTrigger("fadeOut");
+       // _chains.SetActive(false);
+        _overHeating = false;
+
+    }
+    
+    
+    
     void FireProjectile()
     {
-       
+
+        StartCoroutine(Flash());
         _anim.SetTrigger("fire");
         SoundManager();
        
@@ -82,6 +143,13 @@ public class ShotGunFire : MonoBehaviour
 
         _fireCoolDownTime = 0;
         _canFire = false;
+    }
+
+    private IEnumerator Flash()
+    {
+        _flashAnim.SetBool("flashing", true);
+        yield return new WaitForSeconds(0.1f);
+        _flashAnim.SetBool("flashing", false);
     }
 
     void SoundManager()

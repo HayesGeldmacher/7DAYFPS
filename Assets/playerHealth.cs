@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class playerHealth : MonoBehaviour
 {
@@ -14,6 +15,29 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private Transform _rifle;
     [SerializeField] private AudioSource _hurtSound;
     [SerializeField] private Animator _hurtScreenAnim;
+    [SerializeField] private float _minKillDistance;
+    [SerializeField] private EthanPlayerMovement movement;
+    [SerializeField] private Animator _railgunAnim;
+    [SerializeField] private Animator _rifleAnim;
+
+    [SerializeField] private Animator _shotGunAnim;
+    [SerializeField] private GameObject _railGun;
+    [SerializeField] private WeaponFire _weaponFire;
+    [SerializeField] private ShotGunFire _shotGunScript;
+    [SerializeField] private float _inRageDrain;
+    [SerializeField] private float _maxRage;
+
+    [SerializeField] private Animator _ragePip1;
+    [SerializeField] private Animator _ragePip2;
+    [SerializeField] private Animator _ragePip3;
+
+    public float _rage;
+    public float _neededRage;
+    public float _rageLossRate;
+    public bool _canEnterRage = false;
+    public bool _isRaging = false;
+    public bool _addedRageRecent;
+    public float recentRange;
 
     private Color _originalColor;
     private float _actualHealth;
@@ -47,6 +71,179 @@ public class playerHealth : MonoBehaviour
         {
             _hurtScreenAnim.SetTrigger("hurt");
         }
+
+        RageUpdate();
+       
+        if(transform.position.y < _minKillDistance)
+        {
+            _playerHealth.TakeDamage(1000); 
+        }
+    }
+
+    private void RageUpdate()
+    {
+       
+        if (_isRaging)
+        {
+            _rage -= Time.deltaTime * _inRageDrain;
+
+            if(_rage <= 0)
+            {
+                //ExitRage();
+                _railgunAnim.SetBool("isFiring", false);
+            }
+        }
+        else
+        {
+            if (_canEnterRage)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    EnterRage();
+                }
+            }
+
+            if (_rage >= _neededRage)
+            {
+                _canEnterRage = true;
+            }
+
+            if (_addedRageRecent)
+            {
+                recentRange -= Time.deltaTime;
+                if (recentRange <= 0)
+                {
+                    _addedRageRecent = false;
+                }
+            }
+            else
+            {
+                _rage -= Time.deltaTime * _rageLossRate;
+            }
+
+        }
+
+
+        _rage = Mathf.Clamp(_rage, 0, _maxRage);
+
+        RageHudUpdate();
+
+    }
+    
+    private void RageHudUpdate()
+    {
+       Image _fluidImage1 = _ragePip1.GetComponent<Image>();
+       Image _fluidImage2 = _ragePip2.GetComponent<Image>();
+       Image _fluidImage3 = _ragePip3.GetComponent<Image>();
+
+       
+        if(_rage >= 95f)
+        {
+           
+            if(_rage >=  81f)
+            {
+                _ragePip1.SetInteger("rage", 2);
+                _ragePip2.SetInteger("rage", 2);
+                _ragePip3.SetInteger("rage", 2);
+            }
+            else
+            {
+            _ragePip1.SetInteger("rage", 2);
+            _ragePip2.SetInteger("rage", 2);
+            _ragePip3.SetInteger("rage", 1);
+
+
+            }
+            
+
+        }
+        else if(_rage >= 66f)
+        {
+            if(_rage >= 51f)
+            {
+                _ragePip1.SetInteger("rage", 2);
+                _ragePip2.SetInteger("rage", 2);
+                _ragePip3.SetInteger("rage", 0);
+
+            }
+            else
+            {
+                _ragePip1.SetInteger("rage", 2);
+                _ragePip2.SetInteger("rage", 1);
+                _ragePip3.SetInteger("rage", 0);
+            }
+
+        }
+        else if(_rage >= 33f) 
+        {
+
+            _ragePip1.SetInteger("rage", 2);
+            _ragePip2.SetInteger("rage", 0);
+            _ragePip3.SetInteger("rage", 0);
+        }
+        else
+        {
+            if(_rage > 11f)
+            {
+                _ragePip1.SetInteger("rage", 1);
+                _ragePip2.SetInteger("rage", 0);
+                _ragePip3.SetInteger("rage", 0);
+            }
+            else
+            {
+                _ragePip1.SetInteger("rage", 0);
+                _ragePip2.SetInteger("rage", 0);
+                _ragePip3.SetInteger("rage", 0);
+
+            }          
+        }
+   
+
+        
+        
+    }
+
+    public void AddRage(float _addedValue)
+    {
+       if(!_isRaging)
+        {
+        _rage += _addedValue;
+        _addedRageRecent = true;
+        recentRange = 2;
+
+        }    
+        
+    }
+
+    private void EnterRage()
+    {
+        Debug.Log("ENTERED RAGE");
+        movement._turretMode = true;
+        _isRaging = true;
+
+        //disables two current guns and enables railgun
+        _shotGunAnim.SetBool("active", false);
+        _shotGunScript.enabled = false;
+       
+        _rifleAnim.SetBool("active", false);
+        _weaponFire.enabled = false;
+
+        _railGun.SetActive(true);
+         
+    }
+
+    public void ExitRage()
+    {
+        _isRaging = false;
+        movement._turretMode = false;
+
+        _railGun.SetActive(false);
+
+        _shotGunAnim.SetBool("active", true);
+        _shotGunScript.enabled = true;
+
+        _rifleAnim.SetBool("active", true);
+        _weaponFire.enabled = true;
 
     }
 

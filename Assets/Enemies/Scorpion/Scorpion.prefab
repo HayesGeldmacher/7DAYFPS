@@ -173,6 +173,8 @@ MonoBehaviour:
   _audioEffect: {fileID: 6872875565808705009, guid: 4344b4fc0a927fe429a966916852026a, type: 3}
   _canSlow: 1
   _slowTime: 0.1
+  _canBloom: 0
+  _ragePoints: 30
 --- !u!54 &6479358891047800823
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -240,7 +242,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -336,7 +338,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
