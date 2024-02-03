@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _audio;
     [SerializeField] private GameObject _hurtImage;
     [SerializeField] private AudioSource _watchOut;
+    [SerializeField] private GameObject _hyperScreen;
+
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
     public float TimeElapsed { get; private set; } = 0f;
@@ -58,6 +60,7 @@ public class GameManager : MonoBehaviour
     {
         _v.profile.TryGet(out _b);
         _hurtImage.SetActive(true);
+        _hyperScreen.SetActive(true);
     }
     // Update is called once per frame
     void Update()

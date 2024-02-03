@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 3579766738720725193}
   m_Layer: 10
   m_Name: Snake Tail
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 1
   _damageInterval: 1
+  _killSelfAttack: 0
 --- !u!114 &3579766738720725193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,7 +134,7 @@ MonoBehaviour:
   _canSlow: 0
   _slowTime: 0
   _canBloom: 0
-  _ragePoints: 10
+  _ragePoints: 3
 --- !u!1001 &9125748277569681507
 PrefabInstance:
   m_ObjectHideFlags: 0

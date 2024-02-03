@@ -45,6 +45,8 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private Transform _camOrigin;
     [SerializeField] private AudioSource _jumpAudio;
     [SerializeField] private float _jetPackStrength;
+    [SerializeField] private GameObject _shockWave;
+    [SerializeField] private LayerMask _groundedMask;
 
     private float _storedCamX;
     private float _storedCamY;
@@ -61,6 +63,10 @@ public class EthanPlayerMovement : MonoBehaviour
     private float _jumpTimer = 0f;
     private CharacterController _controller;
 
+    [HideInInspector] public bool isPounding = false;
+    public float _groundPoundDamage;
+    [SerializeField] private float _groundPoundRadius;
+    private float timeSinceJumped;
 
     #region Singleton
 
@@ -86,7 +92,7 @@ public class EthanPlayerMovement : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         UnityEngine.Cursor.visible = false;
         _currentJumpHoldTime = 0;
-
+        timeSinceJumped = 0;
 
         _storedCamX = _camControl._mouseSensitivityX;
         _storedCamY = _camControl._mouseSensitivityY;
@@ -109,7 +115,7 @@ public class EthanPlayerMovement : MonoBehaviour
         float vertical = Input.GetAxisRaw("Vertical");
 
         // Check if the player is grounded
-        Grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f);
+        Grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f, _groundedMask);
 
         // Check for jump and dash
         _dashTimer -= Time.deltaTime;
@@ -172,21 +178,50 @@ public class EthanPlayerMovement : MonoBehaviour
         }
         else
         {
-            desiredVelocity = new Vector3(0, 0, 0);
-            availableAcceleration = 0;
-            vertical = 0;
-            horizontal = 0;
+            desiredVelocity = (transform.forward * vertical + transform.right * horizontal).normalized * (MaxSpeed * 0.7f);
+            availableAcceleration = Grounded ? _acceleration : _acceleration * _airControl;
         }
         Vector3 actualVelocity = Vector3.ProjectOnPlane(Velocity, Vector3.up);
         Velocity += (desiredVelocity - actualVelocity) * availableAcceleration * Time.deltaTime;
-      
+
 
 
         // Gravity
+        if (!isPounding)
+        {
         Velocity += Vector3.up * Physics.gravity.y * 2.5f * Time.deltaTime;
+        }
+        else
+        {
+            Velocity += Vector3.up * -400 * Time.deltaTime;
+        }
         if (Dashing || (Grounded && Velocity.y < 0))
             Velocity.y = 0;
 
+
+        if(!Grounded)
+        {
+            timeSinceJumped += Time.deltaTime;
+            
+            if(!isPounding && Input.GetKey(KeyCode.LeftControl))
+            {
+               if(timeSinceJumped > 0.8f && transform.position.y >= 8)
+                {
+                
+                EnterGroundPound();
+
+                }
+            }    
+        }
+        else
+        {
+            if (isPounding)
+            {
+            isPounding = false;
+                ShockWave();
+            }
+            timeSinceJumped = 0;
+        }
 
 
         if (Boosting)
@@ -291,6 +326,12 @@ public class EthanPlayerMovement : MonoBehaviour
             Boosting = false;
         }
 
+        private void EnterGroundPound()
+        {
+            isPounding = true;
+            Velocity += Vector3.up * -10;
+        }
+
         private IEnumerator Dash()
         {
             //if (_currentEnergy < _energyCostDash * _dashDuration) yield break;
@@ -331,4 +372,22 @@ public class EthanPlayerMovement : MonoBehaviour
             _audio.Play();
         }
     
+
+    private void ShockWave()
+    {
+        GameObject shockwave = Instantiate(_shockWave, transform.position, Quaternion.identity);
+
+
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (isPounding)
+        {
+            if(other.transform.tag == "enemy")
+            {
+                other.gameObject.GetComponent<Health>()?.TakeDamage(500);
+            }
+        }
+    }
 }

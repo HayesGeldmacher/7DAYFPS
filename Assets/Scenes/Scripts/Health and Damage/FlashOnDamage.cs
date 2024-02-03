@@ -10,6 +10,7 @@ public class FlashOnDamage : MonoBehaviour
     [SerializeField] private Color _flashColor;
     [SerializeField] private float _flashTime = 0.1f;
     [SerializeField] private float _blinkTime = 0.025f;
+   
     private Color _originalColor;
 
     private void Start()

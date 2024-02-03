@@ -436,7 +436,7 @@ GameObject:
   - component: {fileID: 427655964694614289}
   m_Layer: 10
   m_Name: BigWolf
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -516,6 +516,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 10
   _damageInterval: 1
+  _killSelfAttack: 1
 --- !u!114 &1761726284271286279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,6 +569,7 @@ MonoBehaviour:
   _speed: 15
   _randomWeight: 3
   _y: 1
+  _minDistance: 2
 --- !u!1 &4714975388152374778
 GameObject:
   m_ObjectHideFlags: 0

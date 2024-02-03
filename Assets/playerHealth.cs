@@ -30,6 +30,12 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private Animator _ragePip1;
     [SerializeField] private Animator _ragePip2;
     [SerializeField] private Animator _ragePip3;
+    [SerializeField] private Animator _hyperScreen;
+    [SerializeField] private Animator _pipBorder1;
+    [SerializeField] private Animator _pipBorder2;
+    [SerializeField] private Animator _pipBorder3;
+
+    [SerializeField] private AudioSource _shatterSound;
 
     public float _rage;
     public float _neededRage;
@@ -38,6 +44,9 @@ public class playerHealth : MonoBehaviour
     public bool _isRaging = false;
     public bool _addedRageRecent;
     public float recentRange;
+    private float _timeSinceRaged;
+    
+
 
     private Color _originalColor;
     private float _actualHealth;
@@ -60,6 +69,7 @@ public class playerHealth : MonoBehaviour
         _actualHealth = _playerHealth.CurrentHealth;
         _healthText.text = _actualHealth.ToString();
         _originalColor = _healthText.color;
+        _timeSinceRaged = 5;
     }
     
     private void Update()
@@ -87,7 +97,7 @@ public class playerHealth : MonoBehaviour
         {
             _rage -= Time.deltaTime * _inRageDrain;
 
-            if(_rage <= 0)
+            if (_rage <= 0)
             {
                 //ExitRage();
                 _railgunAnim.SetBool("isFiring", false);
@@ -121,6 +131,7 @@ public class playerHealth : MonoBehaviour
                 _rage -= Time.deltaTime * _rageLossRate;
             }
 
+            _timeSinceRaged += Time.deltaTime;
         }
 
 
@@ -205,13 +216,18 @@ public class playerHealth : MonoBehaviour
 
     public void AddRage(float _addedValue)
     {
-       if(!_isRaging)
-        {
-        _rage += _addedValue;
-        _addedRageRecent = true;
-        recentRange = 2;
 
-        }    
+       if(_timeSinceRaged > 5)
+        {
+           if(!_isRaging)
+            {
+            _rage += _addedValue;
+            _addedRageRecent = true;
+            recentRange = 2;
+
+            }    
+
+        }
         
     }
 
@@ -219,7 +235,10 @@ public class playerHealth : MonoBehaviour
     {
         Debug.Log("ENTERED RAGE");
         movement._turretMode = true;
+        _hyperScreen.SetTrigger("hyper");
+        GameManager.instance.CallSlowMotion(0.3f);
         _isRaging = true;
+        _shatterSound.Play();
 
         //disables two current guns and enables railgun
         _shotGunAnim.SetBool("active", false);
@@ -229,7 +248,12 @@ public class playerHealth : MonoBehaviour
         _weaponFire.enabled = false;
 
         _railGun.SetActive(true);
-         
+
+        _pipBorder1.SetBool("draining", true);
+        _pipBorder2.SetBool("draining", true);
+        _pipBorder3.SetBool("draining", true);
+
+        _timeSinceRaged = 0;
     }
 
     public void ExitRage()
@@ -244,6 +268,12 @@ public class playerHealth : MonoBehaviour
 
         _rifleAnim.SetBool("active", true);
         _weaponFire.enabled = true;
+
+        _pipBorder1.SetBool("draining", false);
+        _pipBorder2.SetBool("draining", false);
+        _pipBorder3.SetBool("draining", false);
+
+        _timeSinceRaged = 0;
 
     }
 

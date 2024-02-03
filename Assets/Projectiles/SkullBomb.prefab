@@ -66,9 +66,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32be75dcb788eb044b0c810b02ae5439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radius: 50
+  _radius: 25
   _damage: 200
-  _playerDamage: 0
+  _playerDamage: 5
 --- !u!114 &-4821781129265441533
 MonoBehaviour:
   m_ObjectHideFlags: 0

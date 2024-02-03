@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 1701294354020279706}
   m_Layer: 10
   m_Name: Cicada
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   _canSlow: 0
   _slowTime: 0
   _canBloom: 0
-  _ragePoints: 2
+  _ragePoints: 1
 --- !u!114 &2963739608248309988
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   _speed: 5
   _randomWeight: 0.03
   _y: 1
+  _minDistance: 0
 --- !u!95 &-8106919104544961196
 Animator:
   serializedVersion: 3
@@ -170,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 15
   _damageInterval: 1
+  _killSelfAttack: 0
 --- !u!95 &441561250081139659
 Animator:
   serializedVersion: 3

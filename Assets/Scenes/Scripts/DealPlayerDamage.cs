@@ -8,6 +8,7 @@ public class DealPlayerDamage : MonoBehaviour
     [SerializeField] private float _damage = 1f;
     [SerializeField] private float _damageInterval = 1f;
     private float _damageTimer = 0f;
+    [SerializeField] private bool _killSelfAttack;
 
     private void Update()
     {
@@ -20,7 +21,17 @@ public class DealPlayerDamage : MonoBehaviour
         if (_damageTimer > 0) return;
         if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
 
+        if (!other.GetComponent<EthanPlayerMovement>().isPounding)
+        {
         other.GetComponent<Health>()?.TakeDamage(_damage);
+
+        }
+
+        if (_killSelfAttack)
+        {
+            Health health = transform.GetComponent<Health>();
+            health.TakeDamage(1000);
+        }
 
         _damageTimer = _damageInterval;
     }
