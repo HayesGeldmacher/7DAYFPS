@@ -47,6 +47,8 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _jetPackStrength;
     [SerializeField] private GameObject _shockWave;
     [SerializeField] private LayerMask _groundedMask;
+    [SerializeField] private Transform _shockWaveSpawn;
+    [SerializeField] private AudioSource _shockWaveSound;
 
     private float _storedCamX;
     private float _storedCamY;
@@ -375,7 +377,8 @@ public class EthanPlayerMovement : MonoBehaviour
 
     private void ShockWave()
     {
-        GameObject shockwave = Instantiate(_shockWave, transform.position, Quaternion.identity);
+        GameObject shockwave = Instantiate(_shockWave, _shockWaveSpawn.position, Quaternion.identity);
+        _shockWaveSound.Play();
 
 
     }

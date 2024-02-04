@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _hurtImage;
     [SerializeField] private AudioSource _watchOut;
     [SerializeField] private GameObject _hyperScreen;
+    [SerializeField] private AudioSource _coinGrabAudio;
 
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
@@ -183,5 +184,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void CallCoinGrabSound()
+    {
+     if(!_coinGrabAudio.isPlaying)
+        {
+            CoinGrabSound();
+        }   
+    }
+    
+    private void CoinGrabSound()
+    {
+        _coinGrabAudio.Play();
+    }
    
 }
