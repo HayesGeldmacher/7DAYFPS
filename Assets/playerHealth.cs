@@ -35,6 +35,9 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private Animator _pipBorder2;
     [SerializeField] private Animator _pipBorder3;
 
+    [SerializeField] private GameObject _standardReticle;
+    [SerializeField] private GameObject _hyperReticle;
+
     [SerializeField] private AudioSource _shatterSound;
 
     public float _rage;
@@ -240,6 +243,9 @@ public class playerHealth : MonoBehaviour
         _isRaging = true;
         _shatterSound.Play();
 
+        _standardReticle.SetActive(false);
+        _hyperReticle.SetActive(true);
+
         //disables two current guns and enables railgun
         _shotGunAnim.SetBool("active", false);
         _shotGunScript.enabled = false;
@@ -272,6 +278,9 @@ public class playerHealth : MonoBehaviour
         _pipBorder1.SetBool("draining", false);
         _pipBorder2.SetBool("draining", false);
         _pipBorder3.SetBool("draining", false);
+
+        _hyperReticle.GetComponent<Animator>().SetTrigger("fade");
+        _standardReticle.SetActive(true);
 
         _rage = 0;
         _timeSinceRaged = 0;
