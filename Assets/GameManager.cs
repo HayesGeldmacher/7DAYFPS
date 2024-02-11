@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     public Volume _v;
     public bool isBlooming = false;
     private Bloom _b;
+
+    [SerializeField] private AudioSource _coinGrabAudio2;
     #region Singleton
 
     public static GameManager instance;
@@ -186,15 +188,28 @@ public class GameManager : MonoBehaviour
 
     public void CallCoinGrabSound()
     {
-     if(!_coinGrabAudio.isPlaying)
-        {
-            CoinGrabSound();
-        }   
+        CoinGrabSound();  
     }
     
     private void CoinGrabSound()
     {
-        _coinGrabAudio.Play();
+        if (!_coinGrabAudio.isPlaying)
+        {
+            _coinGrabAudio.pitch = Random.Range(0.8f, 1.2f);
+            _coinGrabAudio.Play();
+        }
+        else if( !_coinGrabAudio2.isPlaying)
+        {
+            _coinGrabAudio2.pitch = Random.Range(0.8f, 1.2f);
+            _coinGrabAudio2.Play();
+        }
+        else
+        {
+            _coinGrabAudio.pitch = Random.Range(0.8f, 1.2f);
+            _coinGrabAudio.Play();
+
+        }
+        
     }
    
 }

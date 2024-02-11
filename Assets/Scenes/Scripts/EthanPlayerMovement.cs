@@ -180,7 +180,7 @@ public class EthanPlayerMovement : MonoBehaviour
         }
         else
         {
-            desiredVelocity = (transform.forward * vertical + transform.right * horizontal).normalized * (MaxSpeed * 0.7f);
+            desiredVelocity = (transform.forward * vertical + transform.right * horizontal).normalized * (MaxSpeed * 0.8f);
             availableAcceleration = Grounded ? _acceleration : _acceleration * _airControl;
         }
         Vector3 actualVelocity = Vector3.ProjectOnPlane(Velocity, Vector3.up);
@@ -254,7 +254,15 @@ public class EthanPlayerMovement : MonoBehaviour
             }
         }
 
-        _controller.Move(Velocity * Time.deltaTime);
+        if (_turretMode)
+        {
+            _controller.Move(Velocity * 1.5f * Time.deltaTime);
+        }
+        else
+        {
+         _controller.Move(Velocity * Time.deltaTime);
+
+        }
 
         //drains energy every fram based on the current state of the player
         CheckEnergyUpdate();

@@ -273,6 +273,7 @@ public class playerHealth : MonoBehaviour
         _pipBorder2.SetBool("draining", false);
         _pipBorder3.SetBool("draining", false);
 
+        _rage = 0;
         _timeSinceRaged = 0;
 
     }
