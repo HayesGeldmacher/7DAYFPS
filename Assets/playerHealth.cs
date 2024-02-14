@@ -39,6 +39,10 @@ public class playerHealth : MonoBehaviour
     [SerializeField] private GameObject _hyperReticle;
 
     [SerializeField] private AudioSource _shatterSound;
+    [SerializeField] private float _hyperFOV;
+    [SerializeField] private Camera _cam;
+    private float _currentFOV;
+    private float _startFOV;
 
     public float _rage;
     public float _neededRage;
@@ -73,6 +77,9 @@ public class playerHealth : MonoBehaviour
         _healthText.text = _actualHealth.ToString();
         _originalColor = _healthText.color;
         _timeSinceRaged = 5;
+        _startFOV = _cam.fieldOfView;
+        _currentFOV = _startFOV;
+
     }
     
     private void Update()
@@ -139,6 +146,19 @@ public class playerHealth : MonoBehaviour
 
 
         _rage = Mathf.Clamp(_rage, 0, _maxRage);
+
+        if (_isRaging)
+        {
+            //lerp the fov to be a bit higher and make the player more vulnerable!
+            _currentFOV = Mathf.Lerp(_currentFOV, _startFOV + _hyperFOV, 6 * Time.deltaTime);
+            _cam.fieldOfView = _currentFOV;
+        }
+        else
+        {
+            //lerp the fov to be a bit higher and make the player more vulnerable!
+            _currentFOV = Mathf.Lerp(_currentFOV, _startFOV, 3 * Time.deltaTime);
+            _cam.fieldOfView = _currentFOV;
+        }
 
         RageHudUpdate();
 
@@ -219,19 +239,14 @@ public class playerHealth : MonoBehaviour
 
     public void AddRage(float _addedValue)
     {
-
-       if(_timeSinceRaged > 5)
-        {
+  
            if(!_isRaging)
             {
             _rage += _addedValue;
             _addedRageRecent = true;
             recentRange = 2;
 
-            }    
-
-        }
-        
+            }         
     }
 
     private void EnterRage()
@@ -245,6 +260,7 @@ public class playerHealth : MonoBehaviour
 
         _standardReticle.SetActive(false);
         _hyperReticle.SetActive(true);
+        _hyperReticle.GetComponent<Animator>().SetTrigger("fade in");
 
         //disables two current guns and enables railgun
         _shotGunAnim.SetBool("active", false);

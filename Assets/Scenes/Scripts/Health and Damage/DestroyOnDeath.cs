@@ -12,7 +12,9 @@ public class DestroyOnDeath : MonoBehaviour
     [SerializeField] private bool _canSlow;
     [SerializeField] private float _slowTime;
     [SerializeField] private bool _canBloom;
-    [SerializeField] private float _ragePoints;
+    [SerializeField] private GameObject _devilCoin;
+    [SerializeField] private float _coinSpawnChance;
+    
 
 
     private void OnEnable()
@@ -47,7 +49,19 @@ public class DestroyOnDeath : MonoBehaviour
             GameManager.instance.CallBloomOut();
         }
 
-        EthanPlayerMovement.instance.transform.GetComponent<playerHealth>().AddRage(_ragePoints);
+        float _randomChance = Random.Range(0, 100);
+        if(_randomChance <= _coinSpawnChance)
+        {
+            Vector3 SpawnPosition = new Vector3(transform.position.x, transform.position.y + 2, transform.position.z);
+            GameObject _coin = Instantiate(_devilCoin, SpawnPosition, Quaternion.identity);
+            Rigidbody _rb = _coin.GetComponent<Rigidbody>();
+            float _randomX = Random.Range(30, 100);
+            float _randomZ = Random.Range(30, 100);
+            Vector3 velocity = new Vector3(_randomX, 10, _randomZ);
+            _rb.AddForce(velocity);
+        }
+        
+        //EthanPlayerMovement.instance.transform.GetComponent<playerHealth>().AddRage(_ragePoints);
 
         Destroy(gameObject);
     }

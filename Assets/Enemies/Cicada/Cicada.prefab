@@ -121,7 +121,8 @@ MonoBehaviour:
   _canSlow: 0
   _slowTime: 0
   _canBloom: 0
-  _ragePoints: 1
+  _devilCoin: {fileID: 3329096827546681945, guid: 8c7275770027eb649b9c58cdfa78caf1, type: 3}
+  _coinSpawnChance: 5
 --- !u!114 &2963739608248309988
 MonoBehaviour:
   m_ObjectHideFlags: 0

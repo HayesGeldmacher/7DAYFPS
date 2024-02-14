@@ -256,7 +256,8 @@ public class EthanPlayerMovement : MonoBehaviour
 
         if (_turretMode)
         {
-            _controller.Move(Velocity * 1.5f * Time.deltaTime);
+           
+            _controller.Move(Velocity * 1.8f * Time.deltaTime);
         }
         else
         {
@@ -360,6 +361,21 @@ public class EthanPlayerMovement : MonoBehaviour
             _dashTimer = _dashCooldown;
         }
 
+    private IEnumerator BackLaunch()
+    {
+        Debug.Log("BackLaunch!");
+        Dashing = true;
+        Vector3 _backLaunch = -_cam.forward;
+        _controller.Move(_backLaunch *50f * Time.deltaTime);
+        yield return new WaitForSeconds(_dashDuration);
+        Dashing = false;
+            _dashTimer = _dashCooldown;
+    }
+
+    public void CallBackLaunch()
+    {
+        StartCoroutine(BackLaunch());
+    }
         private IEnumerator Transform(float time)
         {
             //this is where the player will transform from aerial to turret mode!

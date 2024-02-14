@@ -27,7 +27,6 @@ public class Health : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        Debug.Log("Taking " + damage + " damage");
         if (_isDead) return;
 
         // Take the damage

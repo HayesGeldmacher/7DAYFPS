@@ -19,6 +19,7 @@ public class TurretFire : MonoBehaviour
     [SerializeField] private GameObject _missile;
     [SerializeField] private Animator _anim;
     [SerializeField] private AudioSource _launchSound;
+    [SerializeField] private Animator _cameraAnim;
     private bool _gunOut;
     private bool _isFiring = false;
     private bool _canFire = true;
@@ -154,7 +155,8 @@ public class TurretFire : MonoBehaviour
 
 
         _spawnedProjectile.transform.rotation = Quaternion.LookRotation(shootDirection);
-
+        EthanPlayerMovement.instance.CallBackLaunch();
+        _cameraAnim.SetTrigger("shake");
         _launchSound.Play();
         GameManager.instance.CallSlowMotion(0.5f);
 

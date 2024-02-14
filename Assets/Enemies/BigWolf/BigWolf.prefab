@@ -517,6 +517,7 @@ MonoBehaviour:
   _damage: 10
   _damageInterval: 1
   _killSelfAttack: 1
+  _faceRestriction: 0.6
 --- !u!114 &1761726284271286279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,7 +554,8 @@ MonoBehaviour:
   _canSlow: 0
   _slowTime: 0
   _canBloom: 0
-  _ragePoints: 5
+  _devilCoin: {fileID: 3329096827546681945, guid: 8c7275770027eb649b9c58cdfa78caf1, type: 3}
+  _coinSpawnChance: 20
 --- !u!114 &427655964694614289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +571,8 @@ MonoBehaviour:
   _speed: 19
   _randomWeight: 3
   _y: 1
+  _minBackDistance: 4
+  _faceRestriction: 0.6
   _minDistance: 2
 --- !u!1 &4714975388152374778
 GameObject:
