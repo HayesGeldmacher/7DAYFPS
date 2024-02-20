@@ -60,8 +60,7 @@ public class DestroyOnDeath : MonoBehaviour
             Vector3 velocity = new Vector3(_randomX, 10, _randomZ);
             _rb.AddForce(velocity);
         }
-        
-        //EthanPlayerMovement.instance.transform.GetComponent<playerHealth>().AddRage(_ragePoints);
+
 
         Destroy(gameObject);
     }

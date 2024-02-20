@@ -147,7 +147,7 @@ public class playerHealth : MonoBehaviour
 
         _rage = Mathf.Clamp(_rage, 0, _maxRage);
 
-        if (_isRaging)
+        if (_isRaging || movement._isKicking)
         {
             //lerp the fov to be a bit higher and make the player more vulnerable!
             _currentFOV = Mathf.Lerp(_currentFOV, _startFOV + _hyperFOV, 6 * Time.deltaTime);

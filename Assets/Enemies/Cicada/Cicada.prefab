@@ -135,9 +135,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53778f952289a2441b10621d7b1e5751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  _speed: 8
   _randomWeight: 0.03
   _y: 1
+  _minBackDistance: 0
+  _faceRestriction: 0
   _minDistance: 0
 --- !u!95 &-8106919104544961196
 Animator:
@@ -173,6 +175,7 @@ MonoBehaviour:
   _damage: 15
   _damageInterval: 1
   _killSelfAttack: 0
+  _faceRestriction: 0
 --- !u!95 &441561250081139659
 Animator:
   serializedVersion: 3

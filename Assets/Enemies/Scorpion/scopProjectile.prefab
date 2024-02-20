@@ -37,7 +37,7 @@ GameObject:
   - component: {fileID: 7701499923266015236}
   m_Layer: 10
   m_Name: scopProjectile
-  m_TagString: Untagged
+  m_TagString: enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

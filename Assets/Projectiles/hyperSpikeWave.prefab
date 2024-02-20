@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5297795798609579398}
   - component: {fileID: 4069405804783587143}
   m_Layer: 8
-  m_Name: spikeWave
+  m_Name: hyperSpikeWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ece0e574877b8ac4abdc9ee61b0a37d6, type: 2}
+  - {fileID: 2100000, guid: d608105cf122e7c448eba936b97f749b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -115,6 +115,7 @@ MonoBehaviour:
   _damage: 1
   _damageInterval: 1
   _killSelfAttack: 0
+  _faceRestriction: 0
 --- !u!114 &3921068839858204247
 MonoBehaviour:
   m_ObjectHideFlags: 0

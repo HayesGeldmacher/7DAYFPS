@@ -39,6 +39,8 @@ public class CameraController : MonoBehaviour
     private Camera _camera;
     private float _cameraVerticalRotation = 0f;
 
+    public bool _isKicking = false;
+
     private void Awake()
     {
         _playerRb = _playerBody.GetComponent<Rigidbody>();
@@ -59,20 +61,37 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxisRaw("Mouse X");
         float mouseY = Input.GetAxisRaw("Mouse Y");
 
+        if (!_isKicking)
+        {
         // Rotate the player left and right
         _playerBody.transform.Rotate(Vector3.up * mouseX * _mouseSensitivityX);
 
+        }
+        else
+        {
+            _playerBody.transform.Rotate(Vector3.up * mouseX * _mouseSensitivityX * 0.3f);
+        }
+
         // Rotate the camera up and down
+        if (!_isKicking)
+        {
         _cameraVerticalRotation -= mouseY * _mouseSensitivityY;
+
+        }
+        else
+        {
+         _cameraVerticalRotation -= mouseY * _mouseSensitivityY * 0.3f;
+        }
         _cameraVerticalRotation = Mathf.Clamp(_cameraVerticalRotation, -90, 90);
 
         // Determine the camera tilt based on the player's velocity
         float sideTiltAmount = Vector3.Dot(_playerMovement.Velocity, _playerBody.transform.right) / _playerMovement.MaxSpeed;
         float forwardTiltAmount = Vector3.Dot(_playerMovement.Velocity, _playerBody.transform.forward) / _playerMovement.MaxSpeed;
-        
+
         // Set the camera's rotation
         _camera.transform.localRotation = Quaternion.Euler(_cameraVerticalRotation + forwardTiltAmount * _forwardCameraTilt, 0f, -sideTiltAmount * _sideCameraTilt);
-        
+
+       
         // Set the camera's FOV based on the player's dash state
         _camera.fieldOfView = Mathf.Lerp(_camera.fieldOfView, _playerMovement.Dashing ? 70 : 60, 10 * Time.deltaTime);
 

@@ -26,7 +26,6 @@ public class BasicTrackPlayer : MonoBehaviour
         {
             float distance = Vector3.Distance(_target.position, transform.position);
             float dot = Vector3.Dot(_target.forward, (transform.position - _target.position).normalized);
-            Debug.Log("Dot + " + dot);
             if(dot > _faceRestriction)
             {
                 if(distance >= _minDistance)

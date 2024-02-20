@@ -28,6 +28,15 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _energyCostIdle = 1;
     [SerializeField] private float _energyCostBoost = 4;
     [SerializeField] private TMP_Text _energyText;
+    [Header("Kick")]
+    [SerializeField] private Animator _kickAnimator;
+    [SerializeField] private BoxCollider _bc;
+    public float _slideSpeed;
+    public float _currentSlideSpeed;
+    public float _slideDeceleration;
+    public bool _isKicking;
+    private bool _hasKicked = false;
+
     [Header("Audio")]
     [SerializeField] private float _minSoundVolume = 0.8f;
     [SerializeField] private float _maxSoundVolume = 0.12f;
@@ -49,10 +58,10 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask _groundedMask;
     [SerializeField] private Transform _shockWaveSpawn;
     [SerializeField] private AudioSource _shockWaveSound;
-
+    [SerializeField] private Animator _camAnimator;
     private float _storedCamX;
     private float _storedCamY;
-
+    private bool _isFrozen;
 
     public Vector3 Velocity = Vector3.zero;
     public bool Grounded = false;
@@ -70,6 +79,8 @@ public class EthanPlayerMovement : MonoBehaviour
     [SerializeField] private float _groundPoundRadius;
     private float timeSinceJumped;
 
+    [SerializeField] ShotGunFire _shotGunScript;
+    [SerializeField] Animator _shotGunAnim;
     #region Singleton
 
     public static EthanPlayerMovement instance;
@@ -95,7 +106,7 @@ public class EthanPlayerMovement : MonoBehaviour
         UnityEngine.Cursor.visible = false;
         _currentJumpHoldTime = 0;
         timeSinceJumped = 0;
-
+        _bc.enabled = false;
         _storedCamX = _camControl._mouseSensitivityX;
         _storedCamY = _camControl._mouseSensitivityY;
     }
@@ -103,6 +114,7 @@ public class EthanPlayerMovement : MonoBehaviour
     private void Update()
     {
         if (GameManager.instance.PlayerDied) return;
+        if (_isFrozen) return;
 
         if (_camControl._mouseSensitivityX != _storedCamX)
         {
@@ -118,6 +130,12 @@ public class EthanPlayerMovement : MonoBehaviour
 
         // Check if the player is grounded
         Grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f, _groundedMask);
+
+        if(Input.GetKeyDown(KeyCode.Space) && Grounded && _isKicking)
+        {
+            KickJump();
+        }
+
 
         // Check for jump and dash
         _dashTimer -= Time.deltaTime;
@@ -146,6 +164,8 @@ public class EthanPlayerMovement : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
+            if (Grounded)
+            {
             if (_chargedJump)
             {
                 Jump(true);
@@ -156,6 +176,8 @@ public class EthanPlayerMovement : MonoBehaviour
             }
 
             ExitBoost();
+
+            }
         }
 
 
@@ -168,7 +190,34 @@ public class EthanPlayerMovement : MonoBehaviour
         // Update velocity from input
         Vector3 desiredVelocity;
         float availableAcceleration;
-        if (Dashing)
+        if (isPounding)
+        {
+            desiredVelocity = Vector3.zero;
+            availableAcceleration = 0;
+        }
+        if (_isKicking)
+        {
+            _currentSlideSpeed -= _slideDeceleration * Time.deltaTime;
+
+            if (!Dashing)
+            {
+            desiredVelocity =  transform.forward * _currentSlideSpeed;
+            availableAcceleration = _dashAcceleration;
+
+            }
+            else
+            {
+                desiredVelocity = transform.forward * _currentSlideSpeed * 1.5f;
+                availableAcceleration = _dashAcceleration;
+            }
+
+            if(_currentSlideSpeed <= 0 && Grounded)
+            {
+                ExitKick();
+                //_currentSlideSpeed = MaxSpeed;
+            }
+        }
+        else if (Dashing)
         {
             desiredVelocity = _dashDirection * _dashSpeed;
             availableAcceleration = _dashAcceleration;
@@ -183,8 +232,27 @@ public class EthanPlayerMovement : MonoBehaviour
             desiredVelocity = (transform.forward * vertical + transform.right * horizontal).normalized * (MaxSpeed * 0.8f);
             availableAcceleration = Grounded ? _acceleration : _acceleration * _airControl;
         }
+
+       
         Vector3 actualVelocity = Vector3.ProjectOnPlane(Velocity, Vector3.up);
         Velocity += (desiredVelocity - actualVelocity) * availableAcceleration * Time.deltaTime;
+
+
+        if (_isKicking)
+        {
+
+        }
+        else
+        {
+            float _distance = Vector3.Distance(_cam.position, _camOrigin.position);
+            if (_distance > 0.1f)
+            {
+                _cam.position = Vector3.Lerp(_cam.position, _camOrigin.position, 3 * Time.deltaTime);
+            }
+
+        }
+
+
 
 
 
@@ -204,26 +272,50 @@ public class EthanPlayerMovement : MonoBehaviour
         if(!Grounded)
         {
             timeSinceJumped += Time.deltaTime;
-            
+
             if(!isPounding && Input.GetKey(KeyCode.LeftControl))
             {
                if(timeSinceJumped > 0.8f && transform.position.y >= 8)
                 {
                 
                 EnterGroundPound();
+                    ExitKick();
 
                 }
-            }    
+            }
+            if (Input.GetMouseButtonDown(2))
+            {
+                if (!_isKicking && !_hasKicked && !isPounding)
+                {
+                    EnterKick();
+                }
+            }
+         
         }
         else
         {
+            _hasKicked = false;
             if (isPounding)
             {
             isPounding = false;
+                _camAnimator.SetBool("isPounding", false);
+                
                 ShockWave();
+                StartCoroutine(FreezePlayer());
             }
             timeSinceJumped = 0;
+
+            if (!Input.GetMouseButton(2))
+            {
+                if (_isKicking)
+                {
+                    ExitKick();
+                }
+            }
+
         }
+
+        
 
 
         if (Boosting)
@@ -279,15 +371,22 @@ public class EthanPlayerMovement : MonoBehaviour
         _energyText.text = ((int)_currentEnergy).ToString();
     }
 
+    
+
     private void Jump(bool isCharged)
     {
         float jumpHeight;
         if (isCharged)
         {
-            jumpHeight = _chargedJumpHeight;
+
+            
+         
             _jumpAudio.Play();
             _springAnim.SetTrigger("spring");
             _springAnim.SetBool("charging", false);
+                jumpHeight = _chargedJumpHeight;
+
+           
         }
         else
         {
@@ -297,6 +396,22 @@ public class EthanPlayerMovement : MonoBehaviour
         Velocity.y += jumpHeight;
         _jumpTimer = _jumpCooldown;
     }
+    private void KickJump()
+    {
+        float jumpHeight;
+        _jumpAudio.Play();
+        _springAnim.SetTrigger("spring");
+        _springAnim.SetBool("charging", false);
+        _camAnimator.SetTrigger("backFlip");
+        //sound effect here!
+        Velocity.z += 40;
+        jumpHeight = _chargedJumpHeight + 10;
+        StabKick();
+        Velocity.y += jumpHeight;
+        _jumpTimer = _jumpCooldown;
+        GameManager.instance.CallSlightSlowDown(1f);
+    }
+
 
     private void JetPackFly()
     {
@@ -340,7 +455,9 @@ public class EthanPlayerMovement : MonoBehaviour
         private void EnterGroundPound()
         {
             isPounding = true;
-            Velocity += Vector3.up * -10;
+            Velocity += Vector3.up * -15;
+          _camAnimator.SetBool("isPounding", true);
+
         }
 
         private IEnumerator Dash()
@@ -359,6 +476,10 @@ public class EthanPlayerMovement : MonoBehaviour
             yield return new WaitForSeconds(_dashDuration);
             Dashing = false;
             _dashTimer = _dashCooldown;
+        if (_isKicking)
+        {
+            ExitKick();
+        }
         }
 
     private IEnumerator BackLaunch()
@@ -403,6 +524,7 @@ public class EthanPlayerMovement : MonoBehaviour
     {
         GameObject shockwave = Instantiate(_shockWave, _shockWaveSpawn.position, Quaternion.identity);
         _shockWaveSound.Play();
+        ExitKick();
 
 
     }
@@ -417,4 +539,45 @@ public class EthanPlayerMovement : MonoBehaviour
             }
         }
     }
+
+    public void EnterKick()
+    {
+        _isKicking = true;
+        _camControl._isKicking = true;
+        _bc.enabled = true;
+        _kickAnimator.SetBool("isKicking", true);
+        _currentSlideSpeed = _slideSpeed;
+        float meow = _cam.transform.forward.z * 30;
+        Velocity.z += meow;
+       // Velocity.y += 4;
+        _hasKicked = true;
+        _shotGunAnim.SetBool("active", false);
+        _shotGunScript.enabled = false;
+    }
+    public void ExitKick()
+    {
+        _isKicking = false;
+        _camControl._isKicking = false;
+        _bc.enabled = false;
+        _kickAnimator.SetBool("isKicking", false);
+        _shotGunAnim.SetBool("active", true);
+        _shotGunScript.enabled = true;
+    }
+    public void StabKick()
+    {
+        _isKicking = false;
+        _camControl._isKicking = false;
+        _bc.enabled = false;
+        _kickAnimator.SetTrigger("stab");
+        _kickAnimator.SetBool("isKicking", false);
+        _currentSlideSpeed = _slideSpeed;
+    }
+
+   private IEnumerator FreezePlayer()
+    {
+        _isFrozen = true;
+        yield return new WaitForSeconds(0.4f);
+        _isFrozen = false;
+    }
+
 }

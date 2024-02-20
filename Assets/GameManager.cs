@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TMP_Text _timeText;
+    [SerializeField] private TMP_Text _highScoreText;
     [SerializeField] private TMP_Text _endScoreText;
     [SerializeField] private Animator _deathScreen;
     [SerializeField] private Animator _blackScreen;
@@ -20,10 +21,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AudioSource _watchOut;
     [SerializeField] private GameObject _hyperScreen;
     [SerializeField] private AudioSource _coinGrabAudio;
+    private float _watchoutCoolDown;
 
+
+    private AudioSource[] _allSources;
     private bool _isSlowedDown = false;
     private float _pauseEndTime = 0;
     public float TimeElapsed { get; private set; } = 0f;
+
     public bool PlayerDied { get; private set; } = false;
     private bool hasPressedRespawn = false;
     [SerializeField] private AudioSource _beheadingSound;
@@ -31,6 +36,7 @@ public class GameManager : MonoBehaviour
     public bool isBlooming = false;
     private Bloom _b;
 
+    private bool _fadeDown = false;
     [SerializeField] private AudioSource _coinGrabAudio2;
     #region Singleton
 
@@ -52,6 +58,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         _playerHealth.OnDeath += OnDeathPlayer;
+       
     }
 
     private void OnDisable()
@@ -64,10 +71,13 @@ public class GameManager : MonoBehaviour
         _v.profile.TryGet(out _b);
         _hurtImage.SetActive(true);
         _hyperScreen.SetActive(true);
+        _watchoutCoolDown = 2;
     }
     // Update is called once per frame
     void Update()
     {
+        _watchoutCoolDown -= Time.deltaTime;
+        
         if (PlayerDied && !hasPressedRespawn)
         {
             if (Input.anyKeyDown)
@@ -77,10 +87,24 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        if(_fadeDown)
+        {
+            foreach (AudioSource _audio in _allSources)
+            {
+                if(_audio.volume > 0)
+                {
+                _audio.volume -= 1 * Time.deltaTime;
+
+                }
+            }
+        }
+
         if (PlayerDied) return;
 
         TimeElapsed += Time.deltaTime;
         _timeText.text = TimeElapsed.ToString("F2");
+
+        
 
         
         //counts real time to check when to stop slow motion
@@ -119,10 +143,11 @@ public class GameManager : MonoBehaviour
 
     public void WatchOut()
     {
-        if (!_watchOut.isPlaying)
+        if (!_watchOut.isPlaying && _watchoutCoolDown <= 0)
         {
             _watchOut.pitch = Random.Range(0.8f, 1.2f);
             _watchOut.Play();
+            _watchoutCoolDown = 2;
         }
     }
 
@@ -141,6 +166,13 @@ public class GameManager : MonoBehaviour
             StartCoroutine(SlowMotion(time));
         }
     }
+    public void CallSlightSlowDown(float time)
+    {
+        if (!_isSlowedDown)
+        {
+            StartCoroutine(SlightSlowMotion(time));
+        }
+    }
     private IEnumerator SlowMotion(float time)
     {
 
@@ -152,11 +184,25 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
     }
+    private IEnumerator SlightSlowMotion(float time)
+    {
+
+        Time.timeScale = 0.4f;
+        _isSlowedDown = true;
+        _pauseEndTime = Time.realtimeSinceStartup + time;
+
+
+        yield return new WaitForSeconds(0.1f);
+
+    }
+
 
     private void OnDeathPlayer()
     {
         //this is where the player will die!
-         _beheadingSound.Play();
+         _allSources = GameObject.FindSceneObjectsOfType(typeof(AudioSource)) as AudioSource[];
+        _fadeDown = true;
+        _beheadingSound.Play();
         StartCoroutine(DeathFadeIn());
         
     }
@@ -169,8 +215,13 @@ public class GameManager : MonoBehaviour
         _deathScreen.SetTrigger("fade");
         _hazardSprite.SetTrigger("fade");
         float f = Mathf.Round(TimeElapsed * 10.0f) * 0.1f;
-
         _endScoreText.text = f.ToString();
+        if(f > PlayerPrefs.GetFloat("best"))
+        {
+            PlayerPrefs.SetFloat("best", f);
+        }
+        _highScoreText.text = PlayerPrefs.GetFloat("best").ToString();
+        _fadeDown = false;
     }
 
     private IEnumerator EndGame()

@@ -25,10 +25,7 @@ public class DealPlayerDamage : MonoBehaviour
         
         if (!other.GetComponent<EthanPlayerMovement>().isPounding)
         {
-            float dot = Vector3.Dot(other.transform.forward, (transform.position - other.transform.position).normalized);
-            Debug.Log("Dot + " + dot);
-            if(dot > _faceRestriction)
-            {
+           
                 other.GetComponent<Health>()?.TakeDamage(_damage);
                 if (_killSelfAttack)
                 {
@@ -36,8 +33,6 @@ public class DealPlayerDamage : MonoBehaviour
                     health.TakeDamage(1000);
                 }
                 _damageTimer = _damageInterval;
-
-            }
 
         }
 
@@ -54,10 +49,7 @@ public class DealPlayerDamage : MonoBehaviour
 
         if (!other.GetComponent<EthanPlayerMovement>().isPounding)
         {
-            float dot = Vector3.Dot(other.transform.forward, (transform.position - other.transform.position).normalized);
-            Debug.Log("Dot + " + dot);
-            if (dot > _faceRestriction)
-            {
+           
                 other.GetComponent<Health>()?.TakeDamage(_damage);
                 if (_killSelfAttack)
                 {
@@ -66,7 +58,7 @@ public class DealPlayerDamage : MonoBehaviour
                 }
                 _damageTimer = _damageInterval;
 
-            }
+             
 
         }
     }
